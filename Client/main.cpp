@@ -6,6 +6,8 @@
 #include <string>
 #include <fstream>
 
+// Hallo :D
+
 sf::Texture loadTexture(std::string host, std::string uri)
 {
 	sf::Http http(host);
