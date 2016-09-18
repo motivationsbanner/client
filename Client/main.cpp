@@ -27,6 +27,8 @@ int main()
 	sf::Sprite sprite;
 	sprite.setTexture(texture);
 	int i = 0;
+	int x = 0;
+	bool move = true;
 	window.setFramerateLimit(20);
 
 	while (window.isOpen())
@@ -40,20 +42,52 @@ int main()
 
 
 		window.clear();
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ) {
+			x = 48;
+			move = true;
+			sprite.move(-2,0);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			x = 32;
+			move = true;
+			sprite.move(2,0);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			x = 16;
+			move = true;
+			sprite.move(0,-2);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			x = 0;
+			move = true;
+			sprite.move(0,2);
+		}
+		else {
+			move = false;
+		}
+
 
 		// draw everything here...
-		if (i % 6 == 0 || i % 6 == 1) {
-			sprite.setTextureRect(sf::IntRect(0, 0, 16, 28));
+		if (move == true) {
+			if (i % 6 == 0 || i % 6 == 1) {
+				sprite.setTextureRect(sf::IntRect(x, 0, 16, 28));
+			}
+			else if (i % 6 == 2 || i % 6 == 3) {
+				sprite.setTextureRect(sf::IntRect(x, 28, 16, 28));
+			}
+			else if (i % 6 == 4 || i % 6 == 5) {
+				sprite.setTextureRect(sf::IntRect(x, 56, 16, 28));
+			}
 		}
-		else if (i % 6 == 2 || i % 6 == 3) {
-			sprite.setTextureRect(sf::IntRect(0, 28, 16, 28));
-		}
-		else if (i % 6 == 4 || i % 6 == 5) {
-			sprite.setTextureRect(sf::IntRect(0, 56, 16, 28));
+		else {
+			if (i % 6 == 0 || i % 6 == 1) {
+				sprite.setTextureRect(sf::IntRect(x, 0, 16, 28));
+			}
 		}
 
 		// Draw
 		window.draw(sprite);
+		
 
 		window.display();
 		i = i + 1;
