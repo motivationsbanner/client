@@ -3,11 +3,11 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(400, 400), "Hallo!");
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
 
-	std::cout << "teasdast";
+	std::cout << "Hallo michael";
 
 	while (window.isOpen())
 	{
