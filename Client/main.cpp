@@ -66,6 +66,10 @@ int main()
 			move = false;
 		}
 
+		if (event.key.code == sf::Keyboard::Escape) {
+			window.close();
+		}
+
 
 		// draw everything here...
 		if (move == true) {
