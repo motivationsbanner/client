@@ -6,7 +6,7 @@
 #include <string>
 #include <fstream>
 
-// Hallo :D
+// Hallo :D hi michu
 
 sf::Texture loadTexture(std::string host, std::string uri)
 {
