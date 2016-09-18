@@ -26,6 +26,8 @@ int main()
 	sf::Texture texture = loadTexture("textures/keggly.bmp");
 	sf::Sprite sprite;
 	sprite.setTexture(texture);
+	int i = 0;
+	window.setFramerateLimit(20);
 
 	while (window.isOpen())
 	{
@@ -39,10 +41,22 @@ int main()
 
 		window.clear();
 
+		// draw everything here...
+		if (i % 6 == 0 || i % 6 == 1) {
+			sprite.setTextureRect(sf::IntRect(0, 0, 16, 28));
+		}
+		else if (i % 6 == 2 || i % 6 == 3) {
+			sprite.setTextureRect(sf::IntRect(0, 28, 16, 28));
+		}
+		else if (i % 6 == 4 || i % 6 == 5) {
+			sprite.setTextureRect(sf::IntRect(0, 56, 16, 28));
+		}
+
 		// Draw
 		window.draw(sprite);
 
 		window.display();
+		i = i + 1;
 	}
 	
 	return 0;
