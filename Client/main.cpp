@@ -4,11 +4,11 @@
 
 #include <iostream>
 #include <string>
-#include <fstream>
 
-sf::Texture loadTexture(std::string host, std::string uri)
+// http://stackoverflow.com/a/20733740
+sf::Texture loadTexture(std::string uri)
 {
-	sf::Http http(host);
+	sf::Http http("www.cravay.me");
 	sf::Http::Request request(uri);
 	auto response = http.sendRequest(request);
 	auto data = response.getBody();
@@ -23,7 +23,7 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode(920, 580), "Hallo!");
 
-	sf::Texture texture = loadTexture("www.cravay.me", "textures/keggly.bmp");
+	sf::Texture texture = loadTexture("textures/keggly.bmp");
 	sf::Sprite sprite;
 	sprite.setTexture(texture);
 
@@ -39,6 +39,7 @@ int main()
 
 		window.clear();
 
+		// Draw
 		window.draw(sprite);
 
 		window.display();
