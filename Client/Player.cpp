@@ -75,6 +75,6 @@ void Player::Update() {
 	frame = frame + 1;
 }
 
-void Player::Draw(sf::RenderWindow window) {
+void Player::Draw(sf::RenderWindow &window) {
 	window.draw(sprite);
 }

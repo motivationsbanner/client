@@ -14,7 +14,7 @@ public:
 	Player();
 	~Player();
 	void Update();
-	void Draw(sf::RenderWindow);
+	void Draw(sf::RenderWindow &);
 	//sf::Texture loadTexture(std::string uri);
 };
 

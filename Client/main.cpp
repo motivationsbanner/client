@@ -33,7 +33,7 @@ int main()
 		window.clear();
 
 		// Draw
-		
+		player.Draw(window);
 		window.display();
 		
 	}
