@@ -1,7 +1,12 @@
+// sfml includes
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
 #include <SFML/Network/Http.hpp>
 
+// own includes
+#include "Base.h"
+
+// c++ includes
 #include <iostream>
 #include <string>
 
@@ -30,6 +35,12 @@ int main()
 	int x = 0;
 	bool move = true;
 	window.setFramerateLimit(20);
+
+	// Base Class test
+	Base b = Base(5250, 5, 5);
+	int test = b.getPosX();
+	b.setHp(15);
+	std::cout << b.getHp() << std::endl;
 
 	while (window.isOpen())
 	{
