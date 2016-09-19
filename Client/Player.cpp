@@ -9,19 +9,6 @@
 #include <iostream>
 #include <string>
 
-sf::Texture loadTexture(std::string uri)
-{
-	sf::Http http("www.cravay.me");
-	sf::Http::Request request(uri);
-	auto response = http.sendRequest(request);
-	auto data = response.getBody();
-
-	sf::Texture text;
-	text.loadFromMemory(data.data(), data.length());
-
-	return text;
-}
-
 
 Player::Player()
 {

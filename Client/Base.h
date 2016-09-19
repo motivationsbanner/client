@@ -1,4 +1,9 @@
 #pragma once
+
+#include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
+#include <SFML/Network/Http.hpp>
+
 class Base
 {
 	int hp;
@@ -14,6 +19,8 @@ public:
 
 	~Base();
 
+	sf::Texture loadTexture(std::string uri);
+	
 	// Getters
 	int getPosX() { return posX; }
 	int getPosY() { return posY; }

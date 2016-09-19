@@ -5,24 +5,11 @@
 
 //class include
 #include "Player.h"
+#include "Npc.h"
 
 // c++ includes
 #include <iostream>
 #include <string>
-
-// http://stackoverflow.com/a/20733740
-sf::Texture loadTexture(std::string uri)
-{
-	sf::Http http("www.cravay.me");
-	sf::Http::Request request(uri);
-	auto response = http.sendRequest(request);
-	auto data = response.getBody();
-
-	sf::Texture text;
-	text.loadFromMemory(data.data(), data.length());
-
-	return text;
-}
 
 int main()
 {
