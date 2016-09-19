@@ -3,8 +3,8 @@
 #include <SFML/Network.hpp>
 #include <SFML/Network/Http.hpp>
 
-// own includes
-#include "Base.h"
+//class include
+#include "Player.h"
 
 // c++ includes
 #include <iostream>
@@ -27,21 +27,10 @@ sf::Texture loadTexture(std::string uri)
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(920, 580), "Hallo!");
-
-	sf::Texture texture = loadTexture("textures/keggly.bmp");
-	sf::Sprite sprite;
-	sprite.setTexture(texture);
-	int i = 0;
-	int x = 0;
-	bool move = true;
 	window.setFramerateLimit(20);
+	Player player;
 
-	// Base Class test
-	Base b = Base(5250, 5, 5);
-	int test = b.getPosX();
-	b.setHp(15);
-	std::cout << b.getHp() << std::endl;
-
+	//Update
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -50,62 +39,16 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}	
-
-
-		window.clear();
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ) {
-			x = 48;
-			move = true;
-			sprite.move(-2,0);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-			x = 32;
-			move = true;
-			sprite.move(2,0);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			x = 16;
-			move = true;
-			sprite.move(0,-2);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			x = 0;
-			move = true;
-			sprite.move(0,2);
-		}
-		else {
-			move = false;
-		}
-
 		if (event.key.code == sf::Keyboard::Escape) {
 			window.close();
 		}
-
-
-		// draw everything here...
-		if (move == true) {
-			if (i % 6 == 0 || i % 6 == 1) {
-				sprite.setTextureRect(sf::IntRect(x, 0, 16, 28));
-			}
-			else if (i % 6 == 2 || i % 6 == 3) {
-				sprite.setTextureRect(sf::IntRect(x, 28, 16, 28));
-			}
-			else if (i % 6 == 4 || i % 6 == 5) {
-				sprite.setTextureRect(sf::IntRect(x, 56, 16, 28));
-			}
-		}
-		else {
-			if (i % 6 == 0 || i % 6 == 1) {
-				sprite.setTextureRect(sf::IntRect(x, 0, 16, 28));
-			}
-		}
+		player.Update();
+		window.clear();
 
 		// Draw
-		window.draw(sprite);
 		
-
 		window.display();
-		i = i + 1;
+		
 	}
 	
 	return 0;
