@@ -1,16 +1,14 @@
 #include "Base.h"
-#include <iostream>
 
 Base::Base()
 {
-
+	this->posX = 0;
+	this->posY = 0;
 }
 
 Base::Base(int hp)
 {
 	this->hp = hp;
-	std::cout << "I HAVE " << hp << " HP" << std::endl;
-
 }
 
 Base::Base(int hp, int posX, int posY)

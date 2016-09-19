@@ -4,7 +4,7 @@
 #include <SFML/Network/Http.hpp>
 
 // own includes
-#include "Base.h"
+#include "Npc.h"
 
 // c++ includes
 #include <iostream>
@@ -36,11 +36,6 @@ int main()
 	bool move = true;
 	window.setFramerateLimit(20);
 
-	// Base Class test
-	Base b = Base(5250, 5, 5);
-	int test = b.getPosX();
-	b.setHp(15);
-	std::cout << b.getHp() << std::endl;
 
 	while (window.isOpen())
 	{
