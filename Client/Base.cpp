@@ -32,7 +32,6 @@ Base::~Base(void)
 
 }
 
-
 sf::Texture Base::loadTexture(std::string uri)
 {
 	sf::Http http("www.cravay.me");

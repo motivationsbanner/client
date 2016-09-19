@@ -1,10 +1,9 @@
 #pragma once
 #include "Base.h"
-class Player :
-	public Base
+class Player : public Base
 {
 	std::string name;
-//	sf::Texture texture = loadTexture("textures/keggly.bmp");
+	sf::Texture texture;
 	sf::Sprite sprite;
 	bool move;
 	int frame;
@@ -13,8 +12,9 @@ class Player :
 public:
 	Player();
 	~Player();
+
 	void Update();
 	void Draw(sf::RenderWindow &);
-	//sf::Texture loadTexture(std::string uri);
+
 };
 
