@@ -13,7 +13,7 @@ public:
 	Player();
 	~Player();
 
-	void Update();
+	void Update(sf::View &);
 	void Draw(sf::RenderWindow &);
 
 };

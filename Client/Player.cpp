@@ -27,28 +27,32 @@ Player::~Player()
 
 }
 
-void Player::Update() {
+void Player::Update(sf::View &view) {
 
 	// Movement
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 		spriteposition = 48;
 		move = true;
 		sprite.move(-2, 0);
+		view.move(-2, 0);
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		spriteposition = 32;
 		move = true;
 		sprite.move(2, 0);
+		view.move(2, 0);
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 		spriteposition = 16;
 		move = true;
 		sprite.move(0, -2);
+		view.move(0, -2);
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		spriteposition = 0;
 		move = true;
 		sprite.move(0, 2);
+		view.move(0, 2);
 	}
 	else {
 		move = false;
