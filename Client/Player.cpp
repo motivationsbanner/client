@@ -10,7 +10,7 @@
 #include <string>
 
 
-Player::Player()
+Player::Player(int X, int Y)
 {
 	//Name, X, Y, Items[], Gold, XP, Character Model, Skilltree, Hp
 	std::string name;
@@ -19,6 +19,7 @@ Player::Player()
 	move = true;
 	frame = 0;
 	spriteposition = 0;
+	sprite.setPosition(X, Y);
 }
 
 
@@ -30,25 +31,25 @@ Player::~Player()
 void Player::Update(sf::View &view) {
 
 	// Movement
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && sprite.getPosition().x > 0 ) {
 		spriteposition = 48;
 		move = true;
 		sprite.move(-2, 0);
 		view.move(-2, 0);
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+	}//920 muss durch map grösse ersetzt werden
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && sprite.getPosition().x < 920-14) {
 		spriteposition = 32;
 		move = true;
 		sprite.move(2, 0);
 		view.move(2, 0);
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sprite.getPosition().y > 0) {
 		spriteposition = 16;
 		move = true;
 		sprite.move(0, -2);
 		view.move(0, -2);
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+	}//580 muss durch map heigth ersetzt werden
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && sprite.getPosition().y < 580-26) {
 		spriteposition = 0;
 		move = true;
 		sprite.move(0, 2);

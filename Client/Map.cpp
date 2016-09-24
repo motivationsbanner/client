@@ -14,6 +14,7 @@ Map::Map(std::string path)
 {
 	texture = loadTexture("textures/" + path);
 	sprite.setTexture(texture);
+	sprite.setPosition(-10, -10);
 }
 
 
@@ -30,3 +31,5 @@ void Map::Mapchange(std::string path)
 {
 	texture = loadTexture(path);
 }
+
+

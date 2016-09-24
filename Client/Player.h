@@ -10,7 +10,7 @@ class Player : public Base
 	int spriteposition;
 
 public:
-	Player();
+	Player(int X, int Y);
 	~Player();
 
 	void Update(sf::View &);

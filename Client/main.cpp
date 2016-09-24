@@ -14,20 +14,26 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(920, 580), "Hallo!");
+	sf::RenderWindow window(sf::VideoMode(920, 580), "Overkeggly!");
 	window.setFramerateLimit(20);
-	Player player;
-	Player player2;
-	
-	std::string mappath = "map.bmp";
+
+	//Startposition des Spielers vom server laden
+	int playerx;
+	int playery;
+	playerx = 100;
+	playery = 100;
+	Player player(playerx, playery);
+
+	//map vom server laden
+	std::string mappath = "map2.bmp";
 	Map map(mappath);
-	sf::View view(sf::Vector2f(0, 0), sf::Vector2f(300, 200));
-	sf::View minimapView(sf::Vector2f(0, 0), sf::Vector2f(940, 592));
-	minimapView.setViewport(sf::FloatRect(0.75f, 0, 0.25f, 0.25f));
-	window.setView(view);
-	player2.Update(view);
+
+	//views erstellen
+	sf::View view(sf::Vector2f(playerx, playery), sf::Vector2f(300, 200));
+	//ToDO Map grösse herausfinden und diese beim view einsetzen
+	sf::View minimapView(sf::Vector2f(0, 0), sf::Vector2f(1880, 1200));
 	view.setViewport(sf::FloatRect(0, 0, 1, 1));
-	minimapView.setViewport(sf::FloatRect(0.75f, 0, 0.25f, 0.25f));
+	minimapView.setViewport(sf::FloatRect(0.5, 0.5, 0.5, 0.5));
 	//Update
 	while (window.isOpen())
 	{
@@ -42,17 +48,17 @@ int main()
 		}
 		player.Update(view);
 		window.clear();
-		window.setView(view);
+		
 		
 		// Draw view
+		window.setView(view);
 		map.Draw(window);
 		player.Draw(window);
-		player2.Draw(window);
+
 		//Draw minimap
 		window.setView(minimapView);
 		map.Draw(window);
 		player.Draw(window);
-		player2.Draw(window);
 		window.display();
 		
 	}
