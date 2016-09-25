@@ -22,8 +22,8 @@ int main()
 	int playery;
 	playerx = 100;
 	playery = 100;
-	Player player(playerx, playery, true, "Player1");
-	Player player2(200, 110, false, "Player2");
+	Player player(playerx, playery, true, "Player1","keggly.bmp");
+	Player player2(200, 110, false, "Player2", "rat.bmp");
 	//map vom server laden
 	std::string mappath = "map2.bmp";
 	Map map(mappath);

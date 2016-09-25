@@ -10,9 +10,10 @@ class Player : public Base
 	bool mainplayer;
 	int frame;
 	int spriteposition;
+	sf::Font font;
 
 public:
-	Player(int X, int Y, bool mainplayer, std::string  name);
+	Player(int X, int Y, bool mainplayer, std::string  name, std::string  texturefile);
 	~Player();
 
 	void Update(sf::View &);
