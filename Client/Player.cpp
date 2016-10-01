@@ -9,7 +9,7 @@
 #include <iostream>
 #include <string>
 
-Player::Player()
+Player::Player(sf::Font font)
 {
 	// get and set texture
 	texture = loadTexture("textures/keggly.bmp");
@@ -27,11 +27,6 @@ Player::Player()
 	// set name
 	name = "fag";
 
-	//Name als Text anzeigen lassen
-	if (!font.loadFromFile("C:\\Windows\\Fonts\\Arial.ttf")) {
-		std::cerr << "Failed to load C:\\Windows\\Fonts\\Arial.ttf";
-		return;
-	}
 
 	// init name font
 	txtname.setFont(font);
@@ -41,7 +36,7 @@ Player::Player()
 	txtname.setPosition(0, 0);
 }
 
-Player::Player(int X, int Y, bool pMainplayer, std::string pName, std::string  pTexturefile)
+Player::Player(int X, int Y, bool pMainplayer, std::string pName, std::string  pTexturefile, sf::Font font)
 {
 	//Name, X, Y, Items[], Gold, XP, Character Model, Skilltree, Hp
 	hp = 100;
@@ -65,11 +60,7 @@ Player::Player(int X, int Y, bool pMainplayer, std::string pName, std::string  p
 	// set name
 	name = pName;
 
-	//Name als Text anzeigen lassen
-	if (!font.loadFromFile("C:\\Windows\\Fonts\\Arial.ttf")) {
-		std::cerr << "Failed to load C:\\Windows\\Fonts\\Arial.ttf";
-		return;
-	}
+
 
 	// init name font
 	txtname.setFont(font);

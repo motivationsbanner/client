@@ -21,15 +21,14 @@ class Player : public Base
 	bool mainplayer;
 	int frame;
 	int spriteposition;
-	sf::Font font;
 	int hp;
 	int maxhp;
 	int mana;
 	int maxmana;
 
 public:
-	Player();
-	Player(int X, int Y, bool pMainplayer, std::string pName, std::string pTexturefile);
+	Player(sf::Font font);
+	Player(int X, int Y, bool pMainplayer, std::string pName, std::string pTexturefile, sf::Font font);
 	~Player();
 
 	void Update(sf::View &);

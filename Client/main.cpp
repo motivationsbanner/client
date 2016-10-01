@@ -21,12 +21,17 @@ int main()
 	int y = 100;
 	
 	ServerConnection con("cravay.me", 4499);
+	sf::Font font;
+	//Name als Text anzeigen lassen
+	if (!font.loadFromFile("C:\\Windows\\Fonts\\Arial.ttf")) {
+		std::cerr << "Failed to load C:\\Windows\\Fonts\\Arial.ttf";
+	}
 
 	//Startposition des Spielers vom server laden
-	Player player(x, y, true, "Player1","keggly");
+	Player player(x, y, true, "Player1","keggly", font);
 
 	//map vom server laden
-	Map map = Map::Map();
+	Map map = Map::Map("map2.bmp");
 
 	//views erstellen
 	sf::View view(sf::Vector2f(x, y), sf::Vector2f(300, 200));
@@ -61,7 +66,7 @@ int main()
 
 		while (sf::Uint16 player_id = con.popNewPlayer()) {
 			auto coords = con.getPlayerPosition(player_id);
-			Player player(coords.x, coords.y, false, "fag" ,"keggly");
+			Player player(coords.x, coords.y, false, "fag" ,"keggly", font);
 			
 			players[player_id] = player;
 		}
