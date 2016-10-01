@@ -54,13 +54,13 @@ int main()
 			window.close();
 		}
 
-		player.Update(view);
+		
 		window.clear();
 		
 		con.setPosition(player.getPosX(), player.getPosY());
 
 		while (sf::Uint16 player_id = con.popNewPlayer()) {
-			Player player(false);
+			Player player;
 			auto coords = con.getPlayerPosition(player_id);
 
 			player.setPosition(coords.x, coords.y);
@@ -72,6 +72,7 @@ int main()
 			players.erase(player_id);
 		}
 
+		player.Update(view);
 		
 		// Draw View
 		window.setView(view);

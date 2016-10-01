@@ -38,37 +38,7 @@ Player::Player()
 	txtname.setCharacterSize(24);
 	txtname.setScale(0.5f, 0.5f);
 	txtname.setString(name);
-}
-
-Player::Player(bool pMainplayer)
-{
-	// get and set texture
-	texture = loadTexture("textures/keggly.bmp");
-	sprite.setTexture(texture);
-
-	// init movement variables
-	move = false;
-	frame = 0;
-
-	spriteposition = 0;
-	sprite.setTextureRect(sf::IntRect(spriteposition, 0, texture.getSize().x / 4, texture.getSize().y / 3));
-
-	// player or networkplayer
-	mainplayer = pMainplayer;
-	// set name
-	name = "fag";
-
-	//Name als Text anzeigen lassen
-	if (!font.loadFromFile("C:\\Windows\\Fonts\\Arial.ttf")) {
-		std::cerr << "Failed to load C:\\Windows\\Fonts\\Arial.ttf";
-		return;
-	}
-
-	// init name font
-	txtname.setFont(font);
-	txtname.setCharacterSize(24);
-	txtname.setScale(0.5f, 0.5f);
-	txtname.setString(name);
+	txtname.setPosition(0, 0);
 }
 
 Player::Player(int X, int Y, bool pMainplayer, std::string pName, std::string  pTexturefile)
@@ -212,6 +182,9 @@ void Player::Update(sf::View &view) {
 			txtname.move(-2, 0);
 		}
 	}
+	
+	txtname.setPosition(sprite.getPosition());
+
 	// sprite texture show correct part.
 	if (move == true) {
 		if (frame % 6 == 0 || frame % 6 == 1) {
@@ -250,7 +223,6 @@ void Player::DrawUI(sf::RenderWindow &window) {
 
 void Player::DrawMinimap(sf::RenderWindow &window) {
 	window.draw(sprite);
-
 }
 
 void Player::TakeDamage(int damage) {

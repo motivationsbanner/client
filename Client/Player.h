@@ -29,7 +29,6 @@ class Player : public Base
 
 public:
 	Player();
-	Player(bool pMainplayer);
 	Player(int X, int Y, bool pMainplayer, std::string pName, std::string pTexturefile);
 	~Player();
 
