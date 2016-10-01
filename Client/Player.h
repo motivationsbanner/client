@@ -4,8 +4,10 @@ class Player : public Base
 {
 	std::string name;
 	sf::Texture texture;
+	sf::Texture profil;
 	sf::Texture health;
 	sf::Texture healthbar;
+	sf::Sprite profilsprite;
 	sf::Sprite healthsprite;
 	sf::Sprite healthbarsprite;
 	sf::Texture manatexture;

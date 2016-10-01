@@ -17,8 +17,9 @@ Player::Player(int X, int Y, bool pmainplayer, std::string  pname, std::string  
 	maxhp = 100;
 	mana = 100;
 	maxmana = 100;
-	texture = loadTexture("textures/" + texturefile);
+	texture = loadTexture("textures/" + texturefile+".bmp");
 	sprite.setTexture(texture);
+	
 	move = false;
 	frame = 0;
 	//Sprite und player texture erstellen
@@ -60,6 +61,11 @@ Player::Player(int X, int Y, bool pmainplayer, std::string  pname, std::string  
 	manasprite.setPosition(X - (manatexture.getSize().x / 4) + (texture.getSize().x / 8), Y + (texture.getSize().y / 3) + 56);
 	manabarsprite.setPosition(X - (manabar.getSize().x / 4) + (texture.getSize().x / 8), Y + (texture.getSize().y / 3 + 56));
 
+	//profil erstellen
+	profil = loadTexture("textures/" + texturefile + "profil.bmp");
+	profilsprite.setTexture(profil);
+	profilsprite.setScale(1.45f,1.45f);
+	profilsprite.setPosition(healthbarsprite.getPosition().x-30, healthbarsprite.getPosition().y);
 }
 
 Player::~Player()
@@ -80,6 +86,7 @@ void Player::Update(sf::View &view) {
 			healthsprite.move(-2, 0);
 			manabarsprite.move(-2, 0);
 			manasprite.move(-2, 0);
+			profilsprite.move(-2,0);
 		}//920 muss durch map grösse ersetzt werden
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && sprite.getPosition().x < 920 - 14) {
 			spriteposition = texture.getSize().x / 4 * 2;
@@ -91,6 +98,7 @@ void Player::Update(sf::View &view) {
 			healthsprite.move(2, 0);
 			manabarsprite.move(2, 0);
 			manasprite.move(2, 0);
+			profilsprite.move(2, 0);
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sprite.getPosition().y > 0) {
 			spriteposition = texture.getSize().x / 4 ;
@@ -102,6 +110,7 @@ void Player::Update(sf::View &view) {
 			healthsprite.move(0, -2);
 			manabarsprite.move(0, -2);
 			manasprite.move(0, -2);
+			profilsprite.move(0, -2);
 		}//580 muss durch map heigth ersetzt werden
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && sprite.getPosition().y < 580 - 26) {
 			spriteposition = 0;
@@ -113,6 +122,7 @@ void Player::Update(sf::View &view) {
 			healthsprite.move(0, 2);
 			manabarsprite.move(0, 2);
 			manasprite.move(0, 2);
+			profilsprite.move(0, 2);
 		}
 		else {
 			move = false;
@@ -167,6 +177,7 @@ void Player::DrawUI(sf::RenderWindow &window) {
 		window.draw(healthbarsprite);
 		window.draw(manasprite);
 		window.draw(manabarsprite);
+		window.draw(profilsprite);
 	}
 }
 
