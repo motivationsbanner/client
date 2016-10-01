@@ -71,12 +71,14 @@ Player::Player(bool pMainplayer)
 	txtname.setString(name);
 }
 
-Player::Player(int x, int y, bool pMainplayer, std::string pName, std::string  pTexturefile)
+Player::Player(int X, int Y, bool pMainplayer, std::string pName, std::string  pTexturefile)
 {
-	//Name, x, y, Items[], Gold, XP, Character Model, Skilltree, Hp
-	
-	// get and set texture
-	texture = loadTexture("textures/" + pTexturefile);
+	//Name, X, Y, Items[], Gold, XP, Character Model, Skilltree, Hp
+	hp = 100;
+	maxhp = 100;
+	mana = 100;
+	maxmana = 100;
+	texture = loadTexture("textures/" + texturefile+".bmp");
 	sprite.setTexture(texture);
 
 	// init movement variables
@@ -85,7 +87,7 @@ Player::Player(int x, int y, bool pMainplayer, std::string pName, std::string  p
 
 	//Sprite und player texture erstellen
 	spriteposition = 0;
-	sprite.setPosition(x, y);
+	sprite.setPosition(X, Y);
 	sprite.setTextureRect(sf::IntRect(spriteposition, 0, texture.getSize().x /4, texture.getSize().y / 3));
 
 	// player or networkplayer
@@ -104,9 +106,36 @@ Player::Player(int x, int y, bool pMainplayer, std::string pName, std::string  p
 	txtname.setCharacterSize(24);
 	txtname.setScale(0.5f, 0.5f);
 	txtname.setString(name);
-	txtname.setPosition(x-15 , y-20);
-}
+	txtname.setPosition(X - (txtname.getLocalBounds().width / 4) +(texture.getSize().x / 8), Y-20);
 
+	//Healthbar erstellen
+	health = loadTexture("textures/health.bmp");
+	healthbar = loadTexture("textures/healthbar.bmp");
+	healthbarsprite.setTexture(healthbar);
+	healthsprite.setTexture(health);
+	healthbarsprite.setScale(0.5f, 0.5f);
+	healthsprite.setScale(0.5f, 0.5f);
+	healthsprite.setTextureRect(sf::IntRect(0, 0, (health.getSize().x *  hp / maxhp), health.getSize().y));
+	healthsprite.setPosition(X- (health.getSize().x/4) + (texture.getSize().x / 8),Y + (texture.getSize().y / 3)+42);
+	healthbarsprite.setPosition(X- (healthbar.getSize().x/4) + (texture.getSize().x / 8),Y+(texture.getSize().y / 3+42));
+
+	//Manabar erstellen
+	manatexture = loadTexture("textures/mana.bmp");
+	manabar = loadTexture("textures/manabar.bmp");
+	manabarsprite.setTexture(manabar);
+	manasprite.setTexture(manatexture);
+	manabarsprite.setScale(0.5f, 0.5f);
+	manasprite.setScale(0.5f, 0.5f);
+	manasprite.setTextureRect(sf::IntRect(0, 0, (manatexture.getSize().x *  mana / maxmana), manatexture.getSize().y));
+	manasprite.setPosition(X - (manatexture.getSize().x / 4) + (texture.getSize().x / 8), Y + (texture.getSize().y / 3) + 56);
+	manabarsprite.setPosition(X - (manabar.getSize().x / 4) + (texture.getSize().x / 8), Y + (texture.getSize().y / 3 + 56));
+
+	//profil erstellen
+	profil = loadTexture("textures/" + texturefile + "profil.bmp");
+	profilsprite.setTexture(profil);
+	profilsprite.setScale(1.45f,1.45f);
+	profilsprite.setPosition(healthbarsprite.getPosition().x-30, healthbarsprite.getPosition().y);
+}
 
 Player::~Player()
 {
@@ -123,24 +152,44 @@ void Player::Update(sf::View &view) {
 			sprite.move(-2, 0);
 			view.move(-2, 0);
 			txtname.move(-2,0);
+			healthbarsprite.move(-2, 0);
+			healthsprite.move(-2, 0);
+			manabarsprite.move(-2, 0);
+			manasprite.move(-2, 0);
+			profilsprite.move(-2,0);
 		}//920 muss durch map grösse ersetzt werden
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && sprite.getPosition().x < 920 - 14) {
 			spriteposition = texture.getSize().x / 4 * 2;
 			sprite.move(2, 0);
 			view.move(2, 0);
 			txtname.move(2, 0);
+			healthbarsprite.move(2, 0);
+			healthsprite.move(2, 0);
+			manabarsprite.move(2, 0);
+			manasprite.move(2, 0);
+			profilsprite.move(2, 0);
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sprite.getPosition().y > 0) {
 			spriteposition = texture.getSize().x / 4 ;
 			sprite.move(0, -2);
 			view.move(0, -2);
 			txtname.move(0, -2);
+			healthbarsprite.move(0, -2);
+			healthsprite.move(0, -2);
+			manabarsprite.move(0, -2);
+			manasprite.move(0, -2);
+			profilsprite.move(0, -2);
 		}//580 muss durch map heigth ersetzt werden
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && sprite.getPosition().y < 580 - 26) {
 			spriteposition = 0;
 			sprite.move(0, 2);
 			view.move(0, 2);
 			txtname.move(0, 2);
+			healthbarsprite.move(0, 2);
+			healthsprite.move(0, 2);
+			manabarsprite.move(0, 2);
+			manasprite.move(0, 2);
+			profilsprite.move(0, 2);
 		}
 		else {
 			move = false;
@@ -187,7 +236,39 @@ void Player::Update(sf::View &view) {
 	
 }
 
-void Player::Draw(sf::RenderWindow &window) {
+void Player::DrawUI(sf::RenderWindow &window) {
 	window.draw(sprite);
 	window.draw(txtname);
+	if (mainplayer) {
+		window.draw(healthsprite);
+		window.draw(healthbarsprite);
+		window.draw(manasprite);
+		window.draw(manabarsprite);
+		window.draw(profilsprite);
+	}
+}
+
+void Player::DrawMinimap(sf::RenderWindow &window) {
+	window.draw(sprite);
+
+}
+
+void Player::TakeDamage(int damage) {
+	if (hp - damage < 0) {
+		//er hat verloren
+	}
+	else {
+		hp = hp-damage;
+		healthsprite.setTextureRect(sf::IntRect(0, 0, (health.getSize().x *  hp / maxhp), health.getSize().y));
+	}
+}
+
+void Player::SpendMana(int manaspent) {
+	if (mana - manaspent < 0) {
+		//er hat verloren
+	}
+	else {
+		mana = mana - manaspent;
+		manasprite.setTextureRect(sf::IntRect(0, 0, (manatexture.getSize().x *  mana / maxmana), manatexture.getSize().y));
+	}
 }

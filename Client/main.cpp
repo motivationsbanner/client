@@ -75,20 +75,20 @@ int main()
 		
 		// Draw View
 		window.setView(view);
-		map.Draw(window);
-		player.Draw(window);
+		map.DrawUI(window);
+		player.DrawUI(window);
 
 		for (auto &player : players) {
 			auto position = con.getPlayerPosition(player.first);
 
 			player.second.setPosition(position.x, position.y);
-			player.second.Draw(window);
+			player.second.DrawUI(window);
 		}
 
 		//Draw Minimap
 		window.setView(minimapView);
-		map.Draw(window);
-		player.Draw(window);
+		map.DrawMinimap(window);
+		player.DrawMinimap(window);
 
 		window.display();
 		
