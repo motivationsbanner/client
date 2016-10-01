@@ -22,7 +22,7 @@ int main()
 	int playery;
 	playerx = 100;
 	playery = 100;
-	Player player(playerx, playery, true, "Player1","keggly.bmp");
+	Player player(playerx, playery, true, "timmmmmb","keggly.bmp");
 	Player player2(200, 110, false, "Player2", "rat.bmp");
 	//map vom server laden
 	std::string mappath = "map2.bmp";
@@ -54,13 +54,13 @@ int main()
 		// Draw view
 		window.setView(view);
 		map.Draw(window);
-		player.Draw(window);
-		player2.Draw(window);
+		player.DrawUI(window);
+		player2.DrawUI(window);
 		//Draw minimap
 		window.setView(minimapView);
 		map.Draw(window);
-		player.Draw(window);
-		player2.Draw(window);
+		player.DrawMinimap(window);
+		player2.DrawMinimap(window);
 		window.display();
 		
 	}
