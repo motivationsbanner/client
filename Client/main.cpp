@@ -60,11 +60,9 @@ int main()
 		con.setPosition(player.getPosX(), player.getPosY());
 
 		while (sf::Uint16 player_id = con.popNewPlayer()) {
-			Player player;
 			auto coords = con.getPlayerPosition(player_id);
-
-			player.setPosition(coords.x, coords.y);
-
+			Player player(coords.x, coords.y, false, "fag" ,"keggly");
+			
 			players[player_id] = player;
 		}
 
@@ -74,8 +72,7 @@ int main()
 
 		player.Update(view);
 		
-		// Draw View
-		window.setView(view);
+		// Draw View/
 		map.Draw(window);
 		player.DrawUI(window);
 

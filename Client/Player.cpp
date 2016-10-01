@@ -78,33 +78,35 @@ Player::Player(int X, int Y, bool pMainplayer, std::string pName, std::string  p
 	txtname.setString(name);
 	txtname.setPosition(X - (txtname.getLocalBounds().width / 4) +(texture.getSize().x / 8), Y-20);
 
-	//Healthbar erstellen
-	health = loadTexture("textures/health.bmp");
-	healthbar = loadTexture("textures/healthbar.bmp");
-	healthbarsprite.setTexture(healthbar);
-	healthsprite.setTexture(health);
-	healthbarsprite.setScale(0.5f, 0.5f);
-	healthsprite.setScale(0.5f, 0.5f);
-	healthsprite.setTextureRect(sf::IntRect(0, 0, (health.getSize().x *  hp / maxhp), health.getSize().y));
-	healthsprite.setPosition(X- (health.getSize().x/4) + (texture.getSize().x / 8),Y + (texture.getSize().y / 3)+42);
-	healthbarsprite.setPosition(X- (healthbar.getSize().x/4) + (texture.getSize().x / 8),Y+(texture.getSize().y / 3+42));
+	if (pMainplayer) {
+		//Healthbar erstellen
+		health = loadTexture("textures/health.bmp");
+		healthbar = loadTexture("textures/healthbar.bmp");
+		healthbarsprite.setTexture(healthbar);
+		healthsprite.setTexture(health);
+		healthbarsprite.setScale(0.5f, 0.5f);
+		healthsprite.setScale(0.5f, 0.5f);
+		healthsprite.setTextureRect(sf::IntRect(0, 0, (health.getSize().x *  hp / maxhp), health.getSize().y));
+		healthsprite.setPosition(X- (health.getSize().x/4) + (texture.getSize().x / 8),Y + (texture.getSize().y / 3)+42);
+		healthbarsprite.setPosition(X- (healthbar.getSize().x/4) + (texture.getSize().x / 8),Y+(texture.getSize().y / 3+42));
 
-	//Manabar erstellen
-	manatexture = loadTexture("textures/mana.bmp");
-	manabar = loadTexture("textures/manabar.bmp");
-	manabarsprite.setTexture(manabar);
-	manasprite.setTexture(manatexture);
-	manabarsprite.setScale(0.5f, 0.5f);
-	manasprite.setScale(0.5f, 0.5f);
-	manasprite.setTextureRect(sf::IntRect(0, 0, (manatexture.getSize().x *  mana / maxmana), manatexture.getSize().y));
-	manasprite.setPosition(X - (manatexture.getSize().x / 4) + (texture.getSize().x / 8), Y + (texture.getSize().y / 3) + 56);
-	manabarsprite.setPosition(X - (manabar.getSize().x / 4) + (texture.getSize().x / 8), Y + (texture.getSize().y / 3 + 56));
+		//Manabar erstellen
+		manatexture = loadTexture("textures/mana.bmp");
+		manabar = loadTexture("textures/manabar.bmp");
+		manabarsprite.setTexture(manabar);
+		manasprite.setTexture(manatexture);
+		manabarsprite.setScale(0.5f, 0.5f);
+		manasprite.setScale(0.5f, 0.5f);
+		manasprite.setTextureRect(sf::IntRect(0, 0, (manatexture.getSize().x *  mana / maxmana), manatexture.getSize().y));
+		manasprite.setPosition(X - (manatexture.getSize().x / 4) + (texture.getSize().x / 8), Y + (texture.getSize().y / 3) + 56);
+		manabarsprite.setPosition(X - (manabar.getSize().x / 4) + (texture.getSize().x / 8), Y + (texture.getSize().y / 3 + 56));
 
-	//profil erstellen
-	profil = loadTexture("textures/" + pTexturefile + "profil.bmp");
-	profilsprite.setTexture(profil);
-	profilsprite.setScale(1.45f,1.45f);
-	profilsprite.setPosition(healthbarsprite.getPosition().x-30, healthbarsprite.getPosition().y);
+		//profil erstellen
+		profil = loadTexture("textures/" + pTexturefile + "profil.bmp");
+		profilsprite.setTexture(profil);
+		profilsprite.setScale(1.45f,1.45f);
+		profilsprite.setPosition(healthbarsprite.getPosition().x-30, healthbarsprite.getPosition().y);
+	}
 }
 
 Player::~Player()
