@@ -23,7 +23,7 @@ int main()
 	ServerConnection con("cravay.me", 4499);
 
 	//Startposition des Spielers vom server laden
-	Player player(x, y, true, "Player1","keggly.bmp");
+	Player player(x, y, true, "Player1","keggly");
 
 	//map vom server laden
 	Map map = Map::Map();
@@ -75,7 +75,7 @@ int main()
 		
 		// Draw View
 		window.setView(view);
-		map.DrawUI(window);
+		map.Draw(window);
 		player.DrawUI(window);
 
 		for (auto &player : players) {
@@ -87,7 +87,7 @@ int main()
 
 		//Draw Minimap
 		window.setView(minimapView);
-		map.DrawMinimap(window);
+		map.Draw(window);
 		player.DrawMinimap(window);
 
 		window.display();

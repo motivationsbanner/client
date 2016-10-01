@@ -78,7 +78,7 @@ Player::Player(int X, int Y, bool pMainplayer, std::string pName, std::string  p
 	maxhp = 100;
 	mana = 100;
 	maxmana = 100;
-	texture = loadTexture("textures/" + texturefile+".bmp");
+	texture = loadTexture("textures/" + pTexturefile + ".bmp");
 	sprite.setTexture(texture);
 
 	// init movement variables
@@ -131,7 +131,7 @@ Player::Player(int X, int Y, bool pMainplayer, std::string pName, std::string  p
 	manabarsprite.setPosition(X - (manabar.getSize().x / 4) + (texture.getSize().x / 8), Y + (texture.getSize().y / 3 + 56));
 
 	//profil erstellen
-	profil = loadTexture("textures/" + texturefile + "profil.bmp");
+	profil = loadTexture("textures/" + pTexturefile + "profil.bmp");
 	profilsprite.setTexture(profil);
 	profilsprite.setScale(1.45f,1.45f);
 	profilsprite.setPosition(healthbarsprite.getPosition().x-30, healthbarsprite.getPosition().y);

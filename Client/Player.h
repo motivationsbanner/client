@@ -16,6 +16,7 @@ class Player : public Base
 	sf::Sprite manabarsprite;
 	sf::Sprite sprite;
 	sf::Text txtname;
+
 	bool move;
 	bool mainplayer;
 	int frame;
