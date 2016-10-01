@@ -6,6 +6,7 @@ class Map : public Base
 	sf::Sprite sprite;
 
 public:
+	Map();
 	Map(std::string path);
 	~Map();
 	void Draw(sf::RenderWindow &);

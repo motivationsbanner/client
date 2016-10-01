@@ -9,6 +9,13 @@
 #include <iostream>
 #include <string>
 
+Map::Map()
+{
+	
+	texture = loadTexture("textures/map2.bmp");
+	sprite.setTexture(texture);
+	sprite.setPosition(-10, -10);
+}
 
 Map::Map(std::string path)
 {

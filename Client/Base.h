@@ -33,6 +33,7 @@ public:
 	void setMap(int map) { this->map = map; }
 	void setHp(int hp) { this->hp= hp; }
 
+	void setPosition(int x, int y);
 
 };
 

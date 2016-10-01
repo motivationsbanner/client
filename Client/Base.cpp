@@ -44,3 +44,9 @@ sf::Texture Base::loadTexture(std::string uri)
 
 	return text;
 }
+
+void Base::setPosition(int x, int y)
+{
+	this->posX = x;
+	this->posY = y;
+}

@@ -6,7 +6,6 @@ Npc::Npc()
 {
 	Base();
 	this->friendly = false;
-	std::cout << "test" << std::endl;
 }
 
 Npc::Npc(int hp)

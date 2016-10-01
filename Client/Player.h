@@ -13,7 +13,9 @@ class Player : public Base
 	sf::Font font;
 
 public:
-	Player(int X, int Y, bool mainplayer, std::string  name, std::string  texturefile);
+	Player();
+	Player(bool pMainplayer);
+	Player(int X, int Y, bool pMainplayer, std::string pName, std::string pTexturefile);
 	~Player();
 
 	void Update(sf::View &);
