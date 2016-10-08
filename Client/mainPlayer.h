@@ -1,6 +1,6 @@
 #pragma once
 #include "Base.h"
-class Player : public Base
+class mainPlayer : public Base
 {
 	std::string name;
 	sf::Texture texture;
@@ -18,6 +18,7 @@ class Player : public Base
 	sf::Text txtname;
 
 	bool move;
+	bool mainplayer;
 	int frame;
 	int spriteposition;
 	int hp;
@@ -26,10 +27,11 @@ class Player : public Base
 	int maxmana;
 
 public:
-	Player();
-	~Player();
+	mainPlayer(int X, int Y, std::string pName, std::string pTexturefile, sf::Font font);
+	~mainPlayer();
 
 	void Update(sf::View &);
+	void DrawMinimap(sf::RenderWindow &);
 	void DrawUI(sf::RenderWindow &);
 	void TakeDamage(int damage);
 	void SpendMana(int manaspent);

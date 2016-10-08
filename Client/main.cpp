@@ -8,6 +8,7 @@
 #include "Npc.h"
 #include "Map.h"
 #include "ServerConnection.h"
+#include "mainPlayer.h"
 
 // c++ includes
 #include <iostream>
@@ -28,7 +29,7 @@ int main()
 	}
 
 	//Startposition des Spielers vom server laden
-	Player player(x, y, true, "Player1","keggly", font);
+	mainPlayer mainplayer(x, y,  "Player1","keggly", font);
 
 	//map vom server laden
 	Map map = Map::Map("map2.bmp");
@@ -62,37 +63,46 @@ int main()
 		
 		window.clear();
 		
-		con.setPosition(player.getPosX(), player.getPosY());
+		con.setPosition(mainplayer.getPosX(), mainplayer.getPosY());
 
 		while (sf::Uint16 player_id = con.popNewPlayer()) {
 			auto coords = con.getPlayerPosition(player_id);
-			Player player(coords.x, coords.y, false, "fag" ,"keggly", font);
+			Player player;
 			
-			players[player_id] = player;
+			players[player_id] =  player;
 		}
 
 		while (sf::Uint16 player_id = con.popDisconnectedPlayer()) {
 			players.erase(player_id);
 		}
-
-		player.Update(view);
 		
-		// Draw View/
+		for (auto &player : players) {
+			player.second.Update(view);
+		}
+		mainplayer.Update(view);
+		
+		// Draw View
+		window.setView(view);
 		map.Draw(window);
-		player.DrawUI(window);
-
+		
 		for (auto &player : players) {
 			auto position = con.getPlayerPosition(player.first);
-
 			player.second.setPosition(position.x, position.y);
-			player.second.DrawUI(window);
+			player.second.DrawUI(window);		
 		}
+		mainplayer.DrawUI(window);
 
 		//Draw Minimap
 		window.setView(minimapView);
 		map.Draw(window);
-		player.DrawMinimap(window);
+		for (auto &player : players) {
+			auto position = con.getPlayerPosition(player.first);
+			player.second.setPosition(position.x, position.y);
+			player.second.DrawUI(window);
+		}
+		mainplayer.DrawMinimap(window);
 
+		//Alles anzeigen lassen
 		window.display();
 		
 	}

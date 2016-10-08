@@ -6,12 +6,13 @@
 
 class Base
 {
+
+
+public:
 	int hp;
 	int posX;
 	int posY;
 	int map;
-
-public:
 	Base();
 	Base(int hp);
 	Base(int hp, int posX, int posY);
