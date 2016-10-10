@@ -43,8 +43,28 @@ void Player::Update(sf::View &view) {
 
 	//hier würde die Position vom server gesetzt
 
-	move = true;
-	spriteposition = 0;
+	move = false;
+	
+	
+	 if (sprite.getPosition().x < posX && sprite.getPosition().y == posY) {
+		spriteposition = texture.getSize().x / 4 * 2;
+		move = true;
+	}
+	else if (sprite.getPosition().x > posX && sprite.getPosition().y == posY) {
+		spriteposition = texture.getSize().x / 4 * 3;
+		move = true;
+	}
+	else if (sprite.getPosition().x == posX && sprite.getPosition().y < posY) {
+		spriteposition = 0;
+		move = true;
+	}
+	else if (sprite.getPosition().x == posX && sprite.getPosition().y > posY) {
+		spriteposition = texture.getSize().x / 4;
+		move = true;
+	}
+	else if (sprite.getPosition().x == posX && sprite.getPosition().y == posY) {
+		move = false;
+	}
 
 	//Hier werden alle Positionen geupdated
 	sprite.setPosition(posX, posY);
