@@ -17,10 +17,9 @@ Player::Player()
 	maxhp = 100;
 	mana = 100;
 	maxmana = 100;
-	texture = loadTexture("textures/keggly.bmp");
-	sprite.setTexture(texture);
 	posX = 0;
 	posY = 0;
+
 
 	// init movement variables
 	move = false;
@@ -28,12 +27,10 @@ Player::Player()
 
 	//Sprite und player texture erstellen
 	spriteposition = 0;
+	/*texture = loadTexture("textures/keggly.bmp");
+	sprite.setTexture(texture);
 	sprite.setPosition(0, 0);
-	sprite.setTextureRect(sf::IntRect(spriteposition, 0, texture.getSize().x / 4, texture.getSize().y / 3));
-
-	// set name
-	name = "Fag";
-
+	sprite.setTextureRect(sf::IntRect(spriteposition, 0, texture.getSize().x / 4, texture.getSize().y / 3));*/
 }
 
 Player::~Player()
@@ -47,6 +44,7 @@ void Player::Update(sf::View &view) {
 	//hier würde die Position vom server gesetzt
 
 	move = true;
+	spriteposition = 0;
 
 	//Hier werden alle Positionen geupdated
 	sprite.setPosition(posX, posY);
@@ -98,4 +96,11 @@ void Player::SpendMana(int manaspent) {
 		mana = mana - manaspent;
 		manasprite.setTextureRect(sf::IntRect(0, 0, (manatexture.getSize().x *  mana / maxmana), manatexture.getSize().y));
 	}
+}
+
+void Player::SetTexture(sf::Texture &newtexture) {
+	texture = newtexture;
+	sprite.setTexture(texture);
+	sprite.setPosition(0, 0);
+	sprite.setTextureRect(sf::IntRect(spriteposition, 0, texture.getSize().x / 4, texture.getSize().y / 3));
 }

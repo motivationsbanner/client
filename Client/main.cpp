@@ -18,19 +18,28 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode(920, 580), "Overkeggly!");
 	window.setFramerateLimit(20);
-	int x = 100;
-	int y = 100;
-	
-	ServerConnection con("cravay.me", 4499);
 	sf::Font font;
-	//Name als Text anzeigen lassen
 	if (!font.loadFromFile("C:\\Windows\\Fonts\\Arial.ttf")) {
 		std::cerr << "Failed to load C:\\Windows\\Fonts\\Arial.ttf";
 	}
+	
+	ServerConnection con("cravay.me", 4499);
 
-	//Startposition des Spielers vom server laden
+	sf::Http http("www.cravay.me");
+	sf::Http::Request request("textures/keggly.bmp");
+	auto response = http.sendRequest(request);
+	auto data = response.getBody();
+
+	sf::Texture keggly;
+	keggly.loadFromMemory(data.data(), data.length());
+
+
+	//mainplayer position und daten aus der Datenbank lesen
+	int x = 100;
+	int y = 100;
+
 	mainPlayer mainplayer(x, y,  "Player1","keggly", font);
-
+	mainplayer.SetTexture(keggly);
 	//map vom server laden
 	Map map = Map::Map("map2.bmp");
 
@@ -68,7 +77,6 @@ int main()
 		while (sf::Uint16 player_id = con.popNewPlayer()) {
 			auto coords = con.getPlayerPosition(player_id);
 			Player player;
-			
 			players[player_id] =  player;
 		}
 
@@ -76,15 +84,20 @@ int main()
 			players.erase(player_id);
 		}
 		
-		for (auto &player : players) {
-			player.second.Update(view);
-		}
+		
 		mainplayer.Update(view);
 		
+
+		for (auto &player : players) {
+			auto position = con.getPlayerPosition(player.first);
+			player.second.SetTexture(keggly);
+		}
 		// Draw View
 		window.setView(view);
 		map.Draw(window);
-		
+		for (auto &player : players) {
+			player.second.Update(view);
+		}
 		for (auto &player : players) {
 			auto position = con.getPlayerPosition(player.first);
 			player.second.setPosition(position.x, position.y);
@@ -95,6 +108,9 @@ int main()
 		//Draw Minimap
 		window.setView(minimapView);
 		map.Draw(window);
+		for (auto &player : players) {
+			player.second.Update(view);
+		}
 		for (auto &player : players) {
 			auto position = con.getPlayerPosition(player.first);
 			player.second.setPosition(position.x, position.y);

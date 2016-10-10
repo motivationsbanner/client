@@ -33,6 +33,6 @@ public:
 	void DrawUI(sf::RenderWindow &);
 	void TakeDamage(int damage);
 	void SpendMana(int manaspent);
-
+	void SetTexture(sf::Texture &);
 };
 

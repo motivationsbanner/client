@@ -9,7 +9,6 @@
 #include <iostream>
 #include <string>
 
-
 mainPlayer::mainPlayer(int X, int Y,  std::string pName, std::string  pTexturefile, sf::Font font)
 {
 	//Name, X, Y, Items[], Gold, XP, Character Model, Skilltree, Hp
@@ -19,8 +18,7 @@ mainPlayer::mainPlayer(int X, int Y,  std::string pName, std::string  pTexturefi
 	maxmana = 100;
 	posX = X;
 	posY = Y;
-	texture = loadTexture("textures/" + pTexturefile + ".bmp");
-	sprite.setTexture(texture);
+	
 
 	// init movement variables
 	move = false;
@@ -28,6 +26,8 @@ mainPlayer::mainPlayer(int X, int Y,  std::string pName, std::string  pTexturefi
 
 	//Sprite und player texture erstellen
 	spriteposition = 0;
+	texture = loadTexture("textures/" + pTexturefile + ".bmp");
+	sprite.setTexture(texture);
 	sprite.setPosition(posX, posY);
 	sprite.setTextureRect(sf::IntRect(spriteposition, 0, texture.getSize().x /4, texture.getSize().y / 3));
 
@@ -176,4 +176,11 @@ void mainPlayer::SpendMana(int manaspent) {
 		mana = mana - manaspent;
 		manasprite.setTextureRect(sf::IntRect(0, 0, (manatexture.getSize().x *  mana / maxmana), manatexture.getSize().y));
 	}
+}
+
+void mainPlayer::SetTexture(sf::Texture &newtexture) {
+	texture = newtexture;
+	sprite.setTexture(texture);
+	sprite.setPosition(0, 0);
+	sprite.setTextureRect(sf::IntRect(spriteposition, 0, texture.getSize().x / 4, texture.getSize().y / 3));
 }
