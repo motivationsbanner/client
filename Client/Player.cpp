@@ -43,7 +43,7 @@ void Player::Update(sf::View &view) {
 
 	//hier würde die Position vom server gesetzt
 
-	move = false;
+	move = true;
 	
 	
 	 if (sprite.getPosition().x < posX && sprite.getPosition().y == posY) {
@@ -62,7 +62,7 @@ void Player::Update(sf::View &view) {
 		spriteposition = texture.getSize().x / 4;
 		move = true;
 	}
-	else if (sprite.getPosition().x == posX && sprite.getPosition().y == posY) {
+	else {
 		move = false;
 	}
 
@@ -121,6 +121,6 @@ void Player::SpendMana(int manaspent) {
 void Player::SetTexture(sf::Texture &newtexture) {
 	texture = newtexture;
 	sprite.setTexture(texture);
-	sprite.setPosition(0, 0);
+	sprite.setPosition(posX, posY);
 	sprite.setTextureRect(sf::IntRect(spriteposition, 0, texture.getSize().x / 4, texture.getSize().y / 3));
 }

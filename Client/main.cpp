@@ -88,19 +88,15 @@ int main()
 		mainplayer.Update(view);
 		
 
-		for (auto &player : players) {
-			auto position = con.getPlayerPosition(player.first);
-			player.second.SetTexture(keggly);
-		}
+		
 		// Draw View
 		window.setView(view);
 		map.Draw(window);
 		for (auto &player : players) {
-			player.second.Update(view);
-		}
-		for (auto &player : players) {
 			auto position = con.getPlayerPosition(player.first);
+			player.second.SetTexture(keggly);
 			player.second.setPosition(position.x, position.y);
+			player.second.Update(view);
 			player.second.DrawUI(window);		
 		}
 		mainplayer.DrawUI(window);
@@ -109,11 +105,7 @@ int main()
 		window.setView(minimapView);
 		map.Draw(window);
 		for (auto &player : players) {
-			player.second.Update(view);
-		}
-		for (auto &player : players) {
 			auto position = con.getPlayerPosition(player.first);
-			player.second.setPosition(position.x, position.y);
 			player.second.DrawUI(window);
 		}
 		mainplayer.DrawMinimap(window);
