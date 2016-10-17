@@ -68,7 +68,7 @@ void Player::Update(sf::View &view) {
 
 	//Hier werden alle Positionen geupdated
 	sprite.setPosition(posX, posY);
-
+	txtname.setPosition(posX - (txtname.getLocalBounds().width / 4) + (texture.getSize().x / 8), posY - 15);
 	// sprite texture show correct part.
 	if (move == true) {
 		if (frame % 6 == 0 || frame % 6 == 1) {
@@ -95,7 +95,7 @@ void Player::Update(sf::View &view) {
 
 void Player::DrawUI(sf::RenderWindow &window) {
 	window.draw(sprite);
-	//window.draw(txtname);
+	window.draw(txtname);
 }
 
 void Player::TakeDamage(int damage) {
@@ -123,4 +123,12 @@ void Player::SetTexture(sf::Texture &newtexture) {
 	sprite.setTexture(texture);
 	sprite.setPosition(posX, posY);
 	sprite.setTextureRect(sf::IntRect(spriteposition, 0, texture.getSize().x / 4, texture.getSize().y / 3));
+}
+
+void Player::SetName(sf::Font &font, std::string Pname) {
+	txtname.setFont(font);
+	txtname.setCharacterSize(24);
+	txtname.setScale(0.5f, 0.5f);
+	txtname.setString(Pname);
+	txtname.setPosition(posX - (txtname.getLocalBounds().width / 4) + (texture.getSize().x / 8), posY - 15);
 }

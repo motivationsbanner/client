@@ -27,7 +27,7 @@ class mainPlayer : public Base
 	int maxmana;
 
 public:
-	mainPlayer(int X, int Y, std::string pName, std::string pTexturefile, sf::Font font);
+	mainPlayer(int X, int Y,  std::string pTexturefile);
 	~mainPlayer();
 
 	void Update(sf::View &);
@@ -36,5 +36,6 @@ public:
 	void TakeDamage(int damage);
 	void SpendMana(int manaspent);
 	void SetTexture(sf::Texture &);
+	void SetName(sf::Font &, std::string);
 };
 

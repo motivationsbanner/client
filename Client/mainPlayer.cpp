@@ -9,7 +9,7 @@
 #include <iostream>
 #include <string>
 
-mainPlayer::mainPlayer(int X, int Y,  std::string pName, std::string  pTexturefile, sf::Font font)
+mainPlayer::mainPlayer(int X, int Y,  std::string  pTexturefile)
 {
 	//Name, X, Y, Items[], Gold, XP, Character Model, Skilltree, Hp
 	hp = 100;
@@ -31,16 +31,6 @@ mainPlayer::mainPlayer(int X, int Y,  std::string pName, std::string  pTexturefi
 	sprite.setPosition(posX, posY);
 	sprite.setTextureRect(sf::IntRect(spriteposition, 0, texture.getSize().x /4, texture.getSize().y / 3));
 
-	// set name
-	name = pName;
-
-
-	// init name font
-	txtname.setFont(font);
-	txtname.setCharacterSize(24);
-	txtname.setScale(0.5f, 0.5f);
-	txtname.setString(name);
-	txtname.setPosition(posX - (txtname.getLocalBounds().width / 4) +(texture.getSize().x / 8), posY-20);
 
 	
 		//Healthbar erstellen
@@ -115,6 +105,7 @@ void mainPlayer::Update(sf::View &view) {
 	manasprite.setPosition(posX - (manatexture.getSize().x / 4) + (texture.getSize().x / 8), posY + (texture.getSize().y / 3) + 56);
 	manabarsprite.setPosition(posX - (manabar.getSize().x / 4) + (texture.getSize().x / 8), posY + (texture.getSize().y / 3 + 56));
 	profilsprite.setPosition(healthbarsprite.getPosition().x - 30, healthbarsprite.getPosition().y);
+	txtname.setPosition(posX - (txtname.getLocalBounds().width / 4) + (texture.getSize().x / 8), posY - 15);
 
 	//hier wird die Position an den Server gesendet
 
@@ -144,7 +135,7 @@ void mainPlayer::Update(sf::View &view) {
 
 void mainPlayer::DrawUI(sf::RenderWindow &window) {
 	window.draw(sprite);
-	//window.draw(txtname);
+	window.draw(txtname);
 	
 	window.draw(healthsprite);
 	window.draw(healthbarsprite);
@@ -183,4 +174,12 @@ void mainPlayer::SetTexture(sf::Texture &newtexture) {
 	sprite.setTexture(texture);
 	sprite.setPosition(0, 0);
 	sprite.setTextureRect(sf::IntRect(spriteposition, 0, texture.getSize().x / 4, texture.getSize().y / 3));
+}
+
+void mainPlayer::SetName(sf::Font &font, std::string Pname) {
+	txtname.setFont(font);
+	txtname.setCharacterSize(24);
+	txtname.setScale(0.5f, 0.5f);
+	txtname.setString(Pname);
+	txtname.setPosition(posX - (txtname.getLocalBounds().width / 4) + (texture.getSize().x / 8), posY - 15);
 }

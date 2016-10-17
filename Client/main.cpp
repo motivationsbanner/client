@@ -37,9 +37,9 @@ int main()
 	//mainplayer position und daten aus der Datenbank lesen
 	int x = 100;
 	int y = 100;
-
-	mainPlayer mainplayer(x, y,  "Player1","keggly", font);
+	mainPlayer mainplayer(x, y, "keggly");
 	mainplayer.SetTexture(keggly);
+	mainplayer.SetName(font, "Tim");
 	//map vom server laden
 	Map map = Map::Map("map2.bmp");
 
@@ -95,6 +95,7 @@ int main()
 		for (auto &player : players) {
 			auto position = con.getPlayerPosition(player.first);
 			player.second.SetTexture(keggly);
+			player.second.SetName(font, "Test");
 			player.second.setPosition(position.x, position.y);
 			player.second.Update(view);
 			player.second.DrawUI(window);		

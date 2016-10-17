@@ -34,5 +34,6 @@ public:
 	void TakeDamage(int damage);
 	void SpendMana(int manaspent);
 	void SetTexture(sf::Texture &);
+	void SetName(sf::Font &, std::string);
 };
 
