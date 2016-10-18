@@ -31,30 +31,6 @@ mainPlayer::mainPlayer(int X, int Y,  std::string  pTexturefile)
 	sprite.setPosition(posX, posY);
 	sprite.setTextureRect(sf::IntRect(spriteposition, 0, texture.getSize().x /4, texture.getSize().y / 3));
 
-
-	
-		//Healthbar erstellen
-		health = loadTexture("textures/health.bmp");
-		healthbar = loadTexture("textures/healthbar.bmp");
-		healthbarsprite.setTexture(healthbar);
-		healthsprite.setTexture(health);
-		healthbarsprite.setScale(0.5f, 0.5f);
-		healthsprite.setScale(0.5f, 0.5f);
-		healthsprite.setTextureRect(sf::IntRect(0, 0, (health.getSize().x *  hp / maxhp), health.getSize().y));
-		healthsprite.setPosition(posX- (health.getSize().x/4) + (texture.getSize().x / 8), posY + (texture.getSize().y / 3)+42);
-		healthbarsprite.setPosition(posX- (healthbar.getSize().x/4) + (texture.getSize().x / 8), posY +(texture.getSize().y / 3+42));
-
-		//Manabar erstellen
-		manatexture = loadTexture("textures/mana.bmp");
-		manabar = loadTexture("textures/manabar.bmp");
-		manabarsprite.setTexture(manabar);
-		manasprite.setTexture(manatexture);
-		manabarsprite.setScale(0.5f, 0.5f);
-		manasprite.setScale(0.5f, 0.5f);
-		manasprite.setTextureRect(sf::IntRect(0, 0, (manatexture.getSize().x *  mana / maxmana), manatexture.getSize().y));
-		manasprite.setPosition(posX - (manatexture.getSize().x / 4) + (texture.getSize().x / 8), posY + (texture.getSize().y / 3) + 56);
-		manabarsprite.setPosition(posX - (manabar.getSize().x / 4) + (texture.getSize().x / 8), posY + (texture.getSize().y / 3 + 56));
-
 		//profil erstellen
 		profil = loadTexture("textures/" + pTexturefile + "profil.bmp");
 		profilsprite.setTexture(profil);
@@ -99,13 +75,17 @@ void mainPlayer::Update(sf::View &view) {
 	//Hier werden alle Positionen geupdated
 	sprite.setPosition(posX, posY);
 	view.setCenter(posX, posY);
-	txtname.setPosition(posX, posY);
-	healthsprite.setPosition(posX - (health.getSize().x / 4) + (texture.getSize().x / 8), posY + (texture.getSize().y / 3) + 42);
-	healthbarsprite.setPosition(posX - (healthbar.getSize().x / 4) + (texture.getSize().x / 8), posY + (texture.getSize().y / 3 + 42));
-	manasprite.setPosition(posX - (manatexture.getSize().x / 4) + (texture.getSize().x / 8), posY + (texture.getSize().y / 3) + 56);
-	manabarsprite.setPosition(posX - (manabar.getSize().x / 4) + (texture.getSize().x / 8), posY + (texture.getSize().y / 3 + 56));
+	healthsprite.setPosition(posX - (health.getSize().x / 2) + (texture.getSize().x / 8), posY + (texture.getSize().y / 3) + 42);
+	healthbarsprite.setPosition(posX - (healthbar.getSize().x / 2) + (texture.getSize().x / 8), posY + (texture.getSize().y / 3 + 42));
+	manasprite.setPosition(posX - (manatexture.getSize().x / 2) + (texture.getSize().x / 8), posY + (texture.getSize().y / 3) + 56);
+	manabarsprite.setPosition(posX - (manabar.getSize().x / 2) + (texture.getSize().x / 8), posY + (texture.getSize().y / 3 + 56));
 	profilsprite.setPosition(healthbarsprite.getPosition().x - 30, healthbarsprite.getPosition().y);
-	txtname.setPosition(posX - (txtname.getLocalBounds().width / 4) + (texture.getSize().x / 8), posY - 15);
+
+	healthspritek.setPosition(posX - (health.getSize().x / 4) + (texture.getSize().x / 8), posY - 20);
+	healthbarspritek.setPosition(posX - (healthbar.getSize().x / 4) + (texture.getSize().x / 8), posY - 20);
+	manaspritek.setPosition(posX - (manatexture.getSize().x / 4) + (texture.getSize().x / 8), posY - 20 + (manatexture.getSize().y / 2));
+	manabarspritek.setPosition(posX - (manatexture.getSize().x / 4) + (texture.getSize().x / 8), posY - 20 + (manatexture.getSize().y / 2));
+	txtname.setPosition(posX - (txtname.getLocalBounds().width / 4) + (texture.getSize().x / 8), posY - 35);
 
 	//hier wird die Position an den Server gesendet
 
@@ -135,8 +115,11 @@ void mainPlayer::Update(sf::View &view) {
 
 void mainPlayer::DrawUI(sf::RenderWindow &window) {
 	window.draw(sprite);
+	window.draw(manaspritek);
+	window.draw(manabarspritek);
+	window.draw(healthspritek);
+	window.draw(healthbarspritek);
 	window.draw(txtname);
-	
 	window.draw(healthsprite);
 	window.draw(healthbarsprite);
 	window.draw(manasprite);
@@ -156,6 +139,7 @@ void mainPlayer::TakeDamage(int damage) {
 	else {
 		hp = hp-damage;
 		healthsprite.setTextureRect(sf::IntRect(0, 0, (health.getSize().x *  hp / maxhp), health.getSize().y));
+		healthspritek.setTextureRect(sf::IntRect(0, 0, (health.getSize().x *  hp / maxhp), health.getSize().y));
 	}
 }
 
@@ -166,6 +150,7 @@ void mainPlayer::SpendMana(int manaspent) {
 	else {
 		mana = mana - manaspent;
 		manasprite.setTextureRect(sf::IntRect(0, 0, (manatexture.getSize().x *  mana / maxmana), manatexture.getSize().y));
+		manaspritek.setTextureRect(sf::IntRect(0, 0, (manatexture.getSize().x *  mana / maxmana), manatexture.getSize().y));
 	}
 }
 
@@ -182,4 +167,32 @@ void mainPlayer::SetName(sf::Font &font, std::string Pname) {
 	txtname.setScale(0.5f, 0.5f);
 	txtname.setString(Pname);
 	txtname.setPosition(posX - (txtname.getLocalBounds().width / 4) + (texture.getSize().x / 8), posY - 15);
+}
+
+void mainPlayer::SetManaBar(sf::Texture &pmana, sf::Texture &pmanabar) {
+	manatexture = pmana;
+	manabar = pmanabar;
+	manaspritek.setTexture(manatexture);
+	manaspritek.setTextureRect(sf::IntRect(0, 0, (manatexture.getSize().x *  mana / maxmana), manatexture.getSize().y));
+	manaspritek.setScale(0.5f, 0.5f);
+	manabarspritek.setTexture(manabar);
+	manabarspritek.setScale(0.5f, 0.5f);
+
+	manabarsprite.setTexture(manabar);
+	manasprite.setTexture(manatexture);
+	manasprite.setTextureRect(sf::IntRect(0, 0, (manatexture.getSize().x *  mana / maxmana), manatexture.getSize().y));
+}
+
+void mainPlayer::SetHealthBar(sf::Texture &phealth, sf::Texture &phealthbar) {
+	health = phealth;
+	healthbar = phealthbar;
+	healthspritek.setTexture(health);
+	healthspritek.setTextureRect(sf::IntRect(0, 0, (health.getSize().x *  hp / maxhp), health.getSize().y));
+	healthspritek.setScale(0.5f, 0.5f);
+	healthbarspritek.setTexture(healthbar);
+	healthbarspritek.setScale(0.5f, 0.5f);
+
+	healthbarsprite.setTexture(healthbar);
+	healthsprite.setTexture(health);
+	healthsprite.setTextureRect(sf::IntRect(0, 0, (health.getSize().x *  hp / maxhp), health.getSize().y));
 }

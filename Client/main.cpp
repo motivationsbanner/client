@@ -9,6 +9,7 @@
 #include "Map.h"
 #include "ServerConnection.h"
 #include "mainPlayer.h"
+#include "Base.h"
 
 // c++ includes
 #include <iostream>
@@ -25,21 +26,20 @@ int main()
 	
 	ServerConnection con("cravay.me", 4499);
 
-	sf::Http http("www.cravay.me");
-	sf::Http::Request request("textures/keggly.bmp");
-	auto response = http.sendRequest(request);
-	auto data = response.getBody();
-
-	sf::Texture keggly;
-	keggly.loadFromMemory(data.data(), data.length());
-
-
+	Base base = Base();
+	sf::Texture keggly = base.loadTexture("textures/keggly.bmp");
+	sf::Texture manabar = base.loadTexture("textures/manabar.bmp");
+	sf::Texture mana = base.loadTexture("textures/mana.bmp");
+	sf::Texture healthbar = base.loadTexture("textures/healthbar.bmp");
+	sf::Texture health = base.loadTexture("textures/health.bmp");
 	//mainplayer position und daten aus der Datenbank lesen
 	int x = 100;
 	int y = 100;
 	mainPlayer mainplayer(x, y, "keggly");
 	mainplayer.SetTexture(keggly);
 	mainplayer.SetName(font, "Tim");
+	mainplayer.SetManaBar(mana,manabar);
+	mainplayer.SetHealthBar(health, healthbar);
 	//map vom server laden
 	Map map = Map::Map("map2.bmp");
 
@@ -97,6 +97,8 @@ int main()
 			player.second.SetTexture(keggly);
 			player.second.SetName(font, "Test");
 			player.second.setPosition(position.x, position.y);
+			player.second.SetManaBar(mana, manabar);
+			player.second.SetHealthBar(health, healthbar);
 			player.second.Update(view);
 			player.second.DrawUI(window);		
 		}
@@ -107,7 +109,7 @@ int main()
 		map.Draw(window);
 		for (auto &player : players) {
 			auto position = con.getPlayerPosition(player.first);
-			player.second.DrawUI(window);
+			player.second.DrawMinimap(window);
 		}
 		mainplayer.DrawMinimap(window);
 

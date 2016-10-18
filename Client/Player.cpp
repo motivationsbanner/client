@@ -27,10 +27,6 @@ Player::Player()
 
 	//Sprite und player texture erstellen
 	spriteposition = 0;
-	/*texture = loadTexture("textures/keggly.bmp");
-	sprite.setTexture(texture);
-	sprite.setPosition(0, 0);
-	sprite.setTextureRect(sf::IntRect(spriteposition, 0, texture.getSize().x / 4, texture.getSize().y / 3));*/
 }
 
 Player::~Player()
@@ -68,7 +64,12 @@ void Player::Update(sf::View &view) {
 
 	//Hier werden alle Positionen geupdated
 	sprite.setPosition(posX, posY);
-	txtname.setPosition(posX - (txtname.getLocalBounds().width / 4) + (texture.getSize().x / 8), posY - 15);
+	txtname.setPosition(posX - (txtname.getLocalBounds().width / 4) + (texture.getSize().x / 8), posY - 35);
+	healthsprite.setPosition(posX - (health.getSize().x / 4) + (texture.getSize().x / 8), posY - 20);
+	healthbarsprite.setPosition(posX - (healthbar.getSize().x / 4) + (texture.getSize().x / 8), posY - 20);
+	manasprite.setPosition(posX - (manatexture.getSize().x / 4) + (texture.getSize().x / 8), posY - 20 + (manatexture.getSize().y / 2));
+	manabarsprite.setPosition(posX - (manatexture.getSize().x / 4) + (texture.getSize().x / 8), posY - 20 + (manatexture.getSize().y / 2));
+
 	// sprite texture show correct part.
 	if (move == true) {
 		if (frame % 6 == 0 || frame % 6 == 1) {
@@ -96,6 +97,14 @@ void Player::Update(sf::View &view) {
 void Player::DrawUI(sf::RenderWindow &window) {
 	window.draw(sprite);
 	window.draw(txtname);
+	window.draw(manasprite);
+	window.draw(manabarsprite);
+	window.draw(healthsprite);
+	window.draw(healthbarsprite);
+}
+
+void Player::DrawMinimap(sf::RenderWindow &window) {
+	window.draw(sprite);
 }
 
 void Player::TakeDamage(int damage) {
@@ -131,4 +140,24 @@ void Player::SetName(sf::Font &font, std::string Pname) {
 	txtname.setScale(0.5f, 0.5f);
 	txtname.setString(Pname);
 	txtname.setPosition(posX - (txtname.getLocalBounds().width / 4) + (texture.getSize().x / 8), posY - 15);
+}
+
+void Player::SetManaBar(sf::Texture &pmana, sf::Texture &pmanabar) {
+	manatexture = pmana;
+	manabar = pmanabar;
+	manasprite.setTexture(manatexture);
+	manasprite.setTextureRect(sf::IntRect(0, 0, (manatexture.getSize().x *  mana / maxmana), manatexture.getSize().y));
+	manasprite.setScale(0.5f, 0.5f);
+	manabarsprite.setTexture(manabar);
+	manabarsprite.setScale(0.5f, 0.5f);
+}
+
+void Player::SetHealthBar(sf::Texture &phealth, sf::Texture &phealthbar) {
+	health = phealth;
+	healthbar = phealthbar;
+	healthsprite.setTexture(health);
+	healthsprite.setTextureRect(sf::IntRect(0, 0, (health.getSize().x *  hp / maxhp), health.getSize().y));
+	healthsprite.setScale(0.5f, 0.5f);
+	healthbarsprite.setTexture(healthbar);
+	healthbarsprite.setScale(0.5f, 0.5f);
 }

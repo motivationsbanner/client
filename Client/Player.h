@@ -31,9 +31,12 @@ public:
 
 	void Update(sf::View &);
 	void DrawUI(sf::RenderWindow &);
+	void DrawMinimap(sf::RenderWindow &);
 	void TakeDamage(int damage);
 	void SpendMana(int manaspent);
 	void SetTexture(sf::Texture &);
 	void SetName(sf::Font &, std::string);
+	void SetManaBar(sf::Texture &manatexture, sf::Texture &manabartexture);
+	void SetHealthBar(sf::Texture &pmana, sf::Texture &pmanabar);
 };
 
