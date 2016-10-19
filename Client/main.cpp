@@ -18,6 +18,8 @@
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(920, 580), "Overkeggly!");
+	window.clear(sf::Color::Black);
+	window.display();
 	window.setFramerateLimit(20);
 	sf::Font font;
 	if (!font.loadFromFile("C:\\Windows\\Fonts\\Arial.ttf")) {
@@ -36,10 +38,6 @@ int main()
 	int x = 100;
 	int y = 100;
 	mainPlayer mainplayer(x, y, "keggly");
-	mainplayer.SetTexture(keggly);
-	mainplayer.SetName(font, "Tim");
-	mainplayer.SetManaBar(mana,manabar);
-	mainplayer.SetHealthBar(health, healthbar);
 	//map vom server laden
 	Map map = Map::Map("map2.bmp");
 
@@ -51,71 +49,127 @@ int main()
 	sf::View minimapView(sf::Vector2f(0, 0), sf::Vector2f(1880, 1200));
 	minimapView.setViewport(sf::FloatRect(0.5, 0.5, 0.5, 0.5));
 
+	std::string namestr;
+	sf::Text nametext;
+	nametext.setFont(font);
+	nametext.setCharacterSize(24);
+	nametext.setPosition(window.getSize().x /2 - nametext.getLocalBounds().width / 2, 200);
+	bool nameselected = true;
+
+	std::string passwordstr;
+	sf::Text passwordtext;
+	passwordtext.setFont(font);
+	passwordtext.setCharacterSize(24);
+	passwordtext.setPosition(window.getSize().x / 2 - passwordtext.getLocalBounds().width / 2, 230);
+	bool passwordselected = true;
+
 	// players map
 	std::map<sf::Uint16, Player> players;
-
+	std::string looptype = "login";
 	//Update
 	while (window.isOpen())
 	{
-		
+
 		sf::Event event;
 		
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
+
+			if (event.type == sf::Event::TextEntered &&  nameselected)
+			{
+				// Handle ASCII characters only that arent enter or tab or del etc.
+				if (event.text.unicode < 128 && event.text.unicode > 31)
+				{
+					nametext.setPosition(window.getSize().x / 2 - nametext.getLocalBounds().width / 2, 200);
+					namestr += static_cast<char>(event.text.unicode);
+					nametext.setString(namestr);
+				}
+				else if (event.text.unicode == 13) {
+					nameselected = false;
+					passwordselected = true;
+					//go to password
+				}
+			}
+			else if (event.type == sf::Event::TextEntered &&  passwordselected) {
+				if (event.text.unicode < 128 && event.text.unicode > 32)
+				{
+					passwordtext.setPosition(window.getSize().x / 2 - passwordtext.getLocalBounds().width / 2, 230);
+					passwordstr += static_cast<char>(event.text.unicode);
+					passwordtext.setString(passwordstr);
+				}
+				else if (event.text.unicode == 13) {
+					
+					//send data to server to check if positive change looptype
+					looptype = "game";
+					//change data to data sent by server
+					mainplayer.SetName(font, namestr);
+					mainplayer.SetTexture(keggly);
+					mainplayer.SetManaBar(mana, manabar);
+					mainplayer.SetHealthBar(health, healthbar);
+				}
+			}
 		}	
 		if (event.key.code == sf::Keyboard::Escape) {
 			window.close();
 		}
 
 		
-		window.clear();
+		window.clear(sf::Color::Black);
 		
-		con.setPosition(mainplayer.getPosX(), mainplayer.getPosY());
+		if (looptype == "login") {
+			window.draw(nametext);
+			window.draw(passwordtext);
+			window.display();
 
-		while (sf::Uint16 player_id = con.popNewPlayer()) {
-			auto coords = con.getPlayerPosition(player_id);
-			Player player;
-			players[player_id] =  player;
 		}
+		else if (looptype == "game") {
 
-		while (sf::Uint16 player_id = con.popDisconnectedPlayer()) {
-			players.erase(player_id);
+			con.setPosition(mainplayer.getPosX(), mainplayer.getPosY());
+
+			while (sf::Uint16 player_id = con.popNewPlayer()) {
+				auto coords = con.getPlayerPosition(player_id);
+				Player player;
+				players[player_id] = player;
+			}
+
+			while (sf::Uint16 player_id = con.popDisconnectedPlayer()) {
+				players.erase(player_id);
+			}
+
+
+			mainplayer.Update(view);
+
+
+
+			// Draw View
+			window.setView(view);
+			map.Draw(window);
+			for (auto &player : players) {
+				auto position = con.getPlayerPosition(player.first);
+				player.second.SetTexture(keggly);
+				player.second.SetName(font, "Test");
+				player.second.setPosition(position.x, position.y);
+				player.second.SetManaBar(mana, manabar);
+				player.second.SetHealthBar(health, healthbar);
+				player.second.Update(view);
+				player.second.DrawUI(window);
+			}
+			mainplayer.DrawUI(window);
+
+			//Draw Minimap
+			window.setView(minimapView);
+			map.Draw(window);
+			for (auto &player : players) {
+				auto position = con.getPlayerPosition(player.first);
+				player.second.DrawMinimap(window);
+			}
+			mainplayer.DrawMinimap(window);
+
+			//Alles anzeigen lassen
+			window.display();
 		}
-		
-		
-		mainplayer.Update(view);
-		
-
-		
-		// Draw View
-		window.setView(view);
-		map.Draw(window);
-		for (auto &player : players) {
-			auto position = con.getPlayerPosition(player.first);
-			player.second.SetTexture(keggly);
-			player.second.SetName(font, "Test");
-			player.second.setPosition(position.x, position.y);
-			player.second.SetManaBar(mana, manabar);
-			player.second.SetHealthBar(health, healthbar);
-			player.second.Update(view);
-			player.second.DrawUI(window);		
-		}
-		mainplayer.DrawUI(window);
-
-		//Draw Minimap
-		window.setView(minimapView);
-		map.Draw(window);
-		for (auto &player : players) {
-			auto position = con.getPlayerPosition(player.first);
-			player.second.DrawMinimap(window);
-		}
-		mainplayer.DrawMinimap(window);
-
-		//Alles anzeigen lassen
-		window.display();
-		
 	}
 	
 	return 0;
