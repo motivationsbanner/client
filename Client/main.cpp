@@ -80,7 +80,12 @@ int main()
 			if (event.type == sf::Event::TextEntered &&  nameselected)
 			{
 				// Handle ASCII characters only that arent enter or tab or del etc.
-				if (event.text.unicode < 128 && event.text.unicode > 31)
+				if (event.text.unicode == '\b' && namestr.length() >0)
+				{
+					namestr.erase(namestr.size() - 1, 1);
+					nametext.setString(namestr);
+				}
+				else if (event.text.unicode < 128 && event.text.unicode > 31)
 				{
 					nametext.setPosition(window.getSize().x / 2 - nametext.getLocalBounds().width / 2, 200);
 					namestr += static_cast<char>(event.text.unicode);
@@ -93,7 +98,12 @@ int main()
 				}
 			}
 			else if (event.type == sf::Event::TextEntered &&  passwordselected) {
-				if (event.text.unicode < 128 && event.text.unicode > 32)
+				if (event.text.unicode == '\b' && passwordstr.length() >0)
+				{
+					passwordstr.erase(passwordstr.size() - 1, 1);
+					passwordtext.setString(passwordstr);
+				}
+				else if (event.text.unicode < 128 && event.text.unicode > 32)
 				{
 					passwordtext.setPosition(window.getSize().x / 2 - passwordtext.getLocalBounds().width / 2, 230);
 					passwordstr += static_cast<char>(event.text.unicode);
