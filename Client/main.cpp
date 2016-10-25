@@ -25,7 +25,14 @@ int main()
 	if (!font.loadFromFile("C:\\Windows\\Fonts\\Arial.ttf")) {
 		std::cerr << "Failed to load C:\\Windows\\Fonts\\Arial.ttf";
 	}
-	
+	sf::Text loadingtxt;
+	loadingtxt.setString("LOADING...");
+	loadingtxt.setFont(font);
+	loadingtxt.setCharacterSize(24);
+	loadingtxt.setPosition(window.getSize().x / 2 - loadingtxt.getLocalBounds().width / 2, 280);
+	window.draw(loadingtxt);
+	window.display();
+
 	ServerConnection con("cravay.me", 4499);
 
 	Base base = Base();
@@ -34,6 +41,9 @@ int main()
 	sf::Texture mana = base.loadTexture("textures/mana.bmp");
 	sf::Texture healthbar = base.loadTexture("textures/healthbar.bmp");
 	sf::Texture health = base.loadTexture("textures/health.bmp");
+	sf::Texture login = base.loadTexture("textures/loginscreen.bmp");
+	sf::Sprite spritelogin;
+	spritelogin.setTexture(login);
 	//mainplayer position und daten aus der Datenbank lesen
 	int x = 100;
 	int y = 100;
@@ -84,10 +94,11 @@ int main()
 				{
 					namestr.erase(namestr.size() - 1, 1);
 					nametext.setString(namestr);
+					nametext.setPosition(window.getSize().x / 2 - nametext.getLocalBounds().width / 2, 285);
 				}
 				else if (event.text.unicode < 128 && event.text.unicode > 31)
 				{
-					nametext.setPosition(window.getSize().x / 2 - nametext.getLocalBounds().width / 2, 200);
+					nametext.setPosition(window.getSize().x / 2 - nametext.getLocalBounds().width / 2, 285);
 					namestr += static_cast<char>(event.text.unicode);
 					nametext.setString(namestr);
 				}
@@ -102,10 +113,11 @@ int main()
 				{
 					passwordstr.erase(passwordstr.size() - 1, 1);
 					passwordtext.setString(passwordstr);
+					passwordtext.setPosition(window.getSize().x / 2 - passwordtext.getLocalBounds().width / 2, 330);
 				}
 				else if (event.text.unicode < 128 && event.text.unicode > 32)
 				{
-					passwordtext.setPosition(window.getSize().x / 2 - passwordtext.getLocalBounds().width / 2, 230);
+					passwordtext.setPosition(window.getSize().x / 2 - passwordtext.getLocalBounds().width / 2, 330);
 					passwordstr += static_cast<char>(event.text.unicode);
 					passwordtext.setString(passwordstr);
 				}
@@ -125,10 +137,8 @@ int main()
 			window.close();
 		}
 
-		
-		window.clear(sf::Color::Black);
-		
 		if (looptype == "login") {
+			window.draw(spritelogin);
 			window.draw(nametext);
 			window.draw(passwordtext);
 			window.display();
@@ -148,10 +158,7 @@ int main()
 				players.erase(player_id);
 			}
 
-
 			mainplayer.Update(view);
-
-
 
 			// Draw View
 			window.setView(view);
