@@ -45,8 +45,8 @@ int main()
 	sf::Sprite spritelogin;
 	spritelogin.setTexture(login);
 	//mainplayer position und daten aus der Datenbank lesen
-	int x = 100;
-	int y = 100;
+	int x = 300;
+	int y = 200;
 	mainPlayer mainplayer(x, y, "keggly");
 	//map vom server laden
 	Map map = Map::Map("map2.bmp");
@@ -86,50 +86,86 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
+			if(looptype == "login"){
+				if (event.type == sf::Event::TextEntered &&  nameselected)
+				{
+					// Handle ASCII characters only that arent enter or tab or del etc.
+					if (event.text.unicode == '\b' && namestr.length() >0)
+					{
+						namestr.erase(namestr.size() - 1, 1);
+						nametext.setString(namestr);
+						nametext.setPosition(window.getSize().x / 2 - nametext.getLocalBounds().width / 2, 285);
+					}
+					else if (event.text.unicode < 128 && event.text.unicode > 31)
+					{
+						nametext.setPosition(window.getSize().x / 2 - nametext.getLocalBounds().width / 2, 285);
+						namestr += static_cast<char>(event.text.unicode);
+						nametext.setString(namestr);
+					}
+					else if (event.text.unicode == 13) {
+						nameselected = false;
+						passwordselected = true;
+						//go to password
+					}else if (event.text.unicode == 9) {
+						nameselected = false;
+						passwordselected = true;
+						//go to password
+					}
+				}
+				else if (event.type == sf::Event::TextEntered &&  passwordselected) 
+				{
+					if (event.text.unicode == '\b' && passwordstr.length() > 0)
+					{
+						passwordstr.erase(passwordstr.size() - 1, 1);
+						passwordtext.setString(passwordstr);
+						passwordtext.setPosition(window.getSize().x / 2 - passwordtext.getLocalBounds().width / 2, 330);
+					}
+					else if (event.text.unicode < 128 && event.text.unicode > 32)
+					{
+						passwordtext.setPosition(window.getSize().x / 2 - passwordtext.getLocalBounds().width / 2, 330);
+						passwordstr += static_cast<char>(event.text.unicode);
+						passwordtext.setString(passwordstr);
+					}
+					else if (event.text.unicode == 13) {
 
-			if (event.type == sf::Event::TextEntered &&  nameselected)
-			{
-				// Handle ASCII characters only that arent enter or tab or del etc.
-				if (event.text.unicode == '\b' && namestr.length() >0)
+						//send data to server to check if positive change looptype
+						looptype = "game";
+						//change data to data sent by server
+						mainplayer.SetName(font, namestr);
+						mainplayer.SetTexture(keggly);
+						mainplayer.SetManaBar(mana, manabar);
+						mainplayer.SetHealthBar(health, healthbar);
+					}
+					else if (event.text.unicode == 9) {
+						nameselected = true;
+						passwordselected = false;
+						//go to name
+					}
+				}
+				else if (event.mouseButton.button == sf::Mouse::Left)
 				{
-					namestr.erase(namestr.size() - 1, 1);
-					nametext.setString(namestr);
-					nametext.setPosition(window.getSize().x / 2 - nametext.getLocalBounds().width / 2, 285);
-				}
-				else if (event.text.unicode < 128 && event.text.unicode > 31)
-				{
-					nametext.setPosition(window.getSize().x / 2 - nametext.getLocalBounds().width / 2, 285);
-					namestr += static_cast<char>(event.text.unicode);
-					nametext.setString(namestr);
-				}
-				else if (event.text.unicode == 13) {
-					nameselected = false;
-					passwordselected = true;
-					//go to password
-				}
-			}
-			else if (event.type == sf::Event::TextEntered &&  passwordselected) {
-				if (event.text.unicode == '\b' && passwordstr.length() >0)
-				{
-					passwordstr.erase(passwordstr.size() - 1, 1);
-					passwordtext.setString(passwordstr);
-					passwordtext.setPosition(window.getSize().x / 2 - passwordtext.getLocalBounds().width / 2, 330);
-				}
-				else if (event.text.unicode < 128 && event.text.unicode > 32)
-				{
-					passwordtext.setPosition(window.getSize().x / 2 - passwordtext.getLocalBounds().width / 2, 330);
-					passwordstr += static_cast<char>(event.text.unicode);
-					passwordtext.setString(passwordstr);
-				}
-				else if (event.text.unicode == 13) {
-					
-					//send data to server to check if positive change looptype
-					looptype = "game";
-					//change data to data sent by server
-					mainplayer.SetName(font, namestr);
-					mainplayer.SetTexture(keggly);
-					mainplayer.SetManaBar(mana, manabar);
-					mainplayer.SetHealthBar(health, healthbar);
+					if (event.mouseButton.x > 70 && event.mouseButton.x < 850 && event.mouseButton.y < 320 && event.mouseButton.y > 290)
+					{
+						nameselected = true;
+						passwordselected = false;
+						//go to name
+					}
+					else if(event.mouseButton.x > 70 && event.mouseButton.x < 850 && event.mouseButton.y < 365 && event.mouseButton.y > 330)
+					{
+						nameselected = false;
+						passwordselected = true;
+						//go to password
+					}
+					else if (event.mouseButton.x > 250 && event.mouseButton.x < 650 && event.mouseButton.y < 485 && event.mouseButton.y > 440)
+					{
+						//send data to server to check if positive change looptype
+						looptype = "game";
+						//change data to data sent by server
+						mainplayer.SetName(font, namestr);
+						mainplayer.SetTexture(keggly);
+						mainplayer.SetManaBar(mana, manabar);
+						mainplayer.SetHealthBar(health, healthbar);
+					}
 				}
 			}
 		}	
