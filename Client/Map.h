@@ -2,14 +2,13 @@
 #include "Base.h"
 class Map : public Base
 {
-	sf::Texture texture;
-	sf::Sprite sprite;
-
+	std::vector< std::vector<int> > vect;
+	sf::Texture blocks;
+	sf::Sprite spriteblock;
 public:
 	Map();
-	Map(std::string path);
 	~Map();
 	void Draw(sf::RenderWindow &);
-	void Mapchange(std::string path);
+	void Loadmap(std::string path, sf::Texture blocks);
 };
 
