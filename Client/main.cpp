@@ -61,9 +61,8 @@ int main()
 	view.setViewport(sf::FloatRect(0, 0, 1, 1));
 
 	
-	//ToDO Map grösse herausfinden und diese beim view einsetzen
-	sf::View minimapView(sf::Vector2f(0, 0), sf::Vector2f(map.GetHeight()*2, map.GetWidth()*2));
-	minimapView.setViewport(sf::FloatRect(0.5, 0.5, 0.5, 0.5));
+	sf::View minimapView(sf::Vector2f(60, map.GetWidth()/2), sf::Vector2f(map.GetHeight()*2, map.GetWidth()*2));
+	minimapView.setViewport(sf::FloatRect(0.5, 0.5, 0.5, 0.5/ map.GetHeight()*map.GetWidth()));
 
 	std::string namestr;
 	sf::Text nametext;
