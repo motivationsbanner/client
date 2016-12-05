@@ -10,5 +10,7 @@ public:
 	~Map();
 	void Draw(sf::RenderWindow &);
 	void Loadmap(std::string path);
+	int Map::GetHeight();
+	int Map::GetWidth();
 };
 

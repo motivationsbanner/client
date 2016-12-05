@@ -185,38 +185,38 @@ Block::Block(int zahl, sf::Texture &Ptexture)
 		hitbox = true;
 		break;
 	case 29:
-		posX = 100;
-		posY = 60;
+		posX = 80;
+		posY = 80;
 		name = "fence_um";
 		hitbox = true;
 		break;
 	case 30:
-		posX = 120;
-		posY = 60;
+		posX = 80;
+		posY = 100;
 		name = "fence_ur";
 		hitbox = true;
 		break;
 	case 31:
-		posX = 80;
-		posY = 80;
+		posX = 100;
+		posY = 60;
 		name = "fence_ml";
 		hitbox = true;
 		break;
 	case 32:
-		posX = 120;
-		posY = 80;
+		posX = 100;
+		posY = 100;
 		name = "fence_mr";
 		hitbox = true;
 		break;
 	case 33:
-		posX = 80;
-		posY = 100;
+		posX = 120;
+		posY = 60;
 		name = "fence_bl";
 		hitbox = true;
 		break;
 	case 34:
-		posX = 100;
-		posY = 100;
+		posX = 120;
+		posY = 80;
 		name = "fence_bm";
 		hitbox = true;
 		break;
@@ -245,14 +245,14 @@ Block::Block(int zahl, sf::Texture &Ptexture)
 		hitbox = true;
 		break;
 	case 39:
-		posX = 60;
-		posY = 80;
+		posX = 40;
+		posY = 100;
 		name = "fountain_ur";
 		hitbox = true;
 		break;
 	case 40:
-		posX = 40;
-		posY = 100;
+		posX = 60;
+		posY = 80;
 		name = "fountain_bl";
 		hitbox = true;
 		break;

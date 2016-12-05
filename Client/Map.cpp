@@ -75,4 +75,11 @@ void Map::Loadmap(std::string s)
 	vect.push_back(vec);	
 }
 
+int Map::GetHeight() {
+	return vect.size()*20;
+}
+
+int Map::GetWidth() {
+	return vect.at(0).size()*20;
+}
 

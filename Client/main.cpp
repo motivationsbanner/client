@@ -55,12 +55,14 @@ int main()
 	//json string in Map übergeben
 	Map map = Map::Map();
 	map.Loadmap(mapstr);
+	
 	//views erstellen
 	sf::View view(sf::Vector2f(x, y), sf::Vector2f(300, 200));
 	view.setViewport(sf::FloatRect(0, 0, 1, 1));
+
 	
 	//ToDO Map grösse herausfinden und diese beim view einsetzen
-	sf::View minimapView(sf::Vector2f(0, 0), sf::Vector2f(1880, 1200));
+	sf::View minimapView(sf::Vector2f(0, 0), sf::Vector2f(map.GetHeight()*2, map.GetWidth()*2));
 	minimapView.setViewport(sf::FloatRect(0.5, 0.5, 0.5, 0.5));
 
 	std::string namestr;

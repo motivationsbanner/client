@@ -49,19 +49,19 @@ void mainPlayer::Update(sf::View &view) {
 	
 		// Movement
 		move = true;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && sprite.getPosition().x > 0) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
 			spriteposition = texture.getSize().x / 4 * 3;
 			posX = posX - 2;
-		}//920 muss durch map grösse ersetzt werden
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && sprite.getPosition().x < 920 - 14) {
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 			spriteposition = texture.getSize().x / 4 * 2;
 			posX = posX + 2;
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sprite.getPosition().y > 0) {
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
 			spriteposition = texture.getSize().x / 4 ;
 			posY = posY - 2;
-		}//580 muss durch map heigth ersetzt werden
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && sprite.getPosition().y < 580 - 26) {
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 			spriteposition = 0;
 			posY = posY + 2;
 		}
