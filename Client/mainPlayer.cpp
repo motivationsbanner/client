@@ -5,6 +5,7 @@
 
 #include "mainPlayer.h"
 
+
 // c++ includes
 #include <iostream>
 #include <string>
@@ -44,26 +45,38 @@ mainPlayer::~mainPlayer()
 	// destructor
 }
 
-void mainPlayer::Update(sf::View &view) {
+void mainPlayer::Update(sf::View &view, Map &map) {
 
-	
+		//colliding blocks
+		sf::FloatRect boundingBox = sprite.getGlobalBounds();
+		boundingBox.top = boundingBox.top+boundingBox.height-15;
+		boundingBox.height = 15;
+
+		sf::FloatRect boundingBoxTop = boundingBox;
+		boundingBoxTop.top = boundingBoxTop.top - speed;
+		sf::FloatRect boundingBoxBottom = boundingBox;
+		boundingBoxBottom.top = boundingBoxBottom.top + speed;
+		sf::FloatRect boundingBoxLeft = boundingBox;
+		boundingBoxLeft.left = boundingBoxLeft.left - speed;
+		sf::FloatRect boundingBoxRight = boundingBox;
+		boundingBoxRight.left = boundingBoxRight.left + speed;
 		// Movement
 		move = true;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && map.Collision(boundingBoxLeft)){
 			spriteposition = texture.getSize().x / 4 * 3;
-			posX = posX - 2;
+			posX = posX - speed;
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && map.Collision(boundingBoxRight)) {
 			spriteposition = texture.getSize().x / 4 * 2;
-			posX = posX + 2;
+			posX = posX + speed;
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && map.Collision(boundingBoxTop)){
 			spriteposition = texture.getSize().x / 4 ;
-			posY = posY - 2;
+			posY = posY - speed;
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && map.Collision(boundingBoxBottom)) {
 			spriteposition = 0;
-			posY = posY + 2;
+			posY = posY + speed;
 		}
 		else {
 			move = false;
@@ -108,8 +121,6 @@ void mainPlayer::Update(sf::View &view) {
 	}
 
 	frame += 1;
-
-	std::cout << frame << std::endl;
 	
 }
 

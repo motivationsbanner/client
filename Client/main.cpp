@@ -199,7 +199,7 @@ int main()
 				players.erase(player_id);
 			}
 
-			mainplayer.Update(view);
+			mainplayer.Update(view,map);
 
 			// Draw View
 			window.clear(sf::Color::Black);

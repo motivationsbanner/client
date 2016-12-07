@@ -1,5 +1,6 @@
 #pragma once
 #include "Base.h"
+#include "Map.h"
 class mainPlayer : public Base
 {
 	std::string name;
@@ -29,12 +30,13 @@ class mainPlayer : public Base
 	int maxhp;
 	int mana;
 	int maxmana;
+	int speed = 2;
 
 public:
 	mainPlayer(int X, int Y,  std::string pTexturefile);
 	~mainPlayer();
 
-	void Update(sf::View &);
+	void Update(sf::View &, Map &);
 	void DrawMinimap(sf::RenderWindow &);
 	void DrawUI(sf::RenderWindow &);
 	void TakeDamage(int damage);

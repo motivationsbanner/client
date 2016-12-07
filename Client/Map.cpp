@@ -9,6 +9,7 @@
 #include "Block.h"
 #include "Map.h"
 
+
 // c++ includes
 #include <iostream>
 #include <string>
@@ -81,5 +82,19 @@ int Map::GetHeight() {
 
 int Map::GetWidth() {
 	return vect.at(0).size()*20;
+}
+
+bool Map::Collision(sf::FloatRect player) {
+	for (int i = 0; i < vect.size(); i++) {
+		for (int z = 0; z < vect.at(i).size(); z++) {
+			//block zeichnen
+			sf::FloatRect block(i*20,z*20,20,20);
+			if (player.intersects(block) && vect[i][z].getHitbox()) {
+				return false;
+			}
+			
+		}
+	}
+	return true;
 }
 

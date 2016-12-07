@@ -20,7 +20,7 @@ Block::Block(int zahl, sf::Texture &Ptexture)
 		posX = 80;
 		posY = 0;
 		name = "stone";
-		hitbox = true;
+		hitbox = false;
 		break;
 	case 2:
 		posX = 40;
@@ -32,13 +32,13 @@ Block::Block(int zahl, sf::Texture &Ptexture)
 		posX = 60;
 		posY = 0;
 		name = "stone2";
-		hitbox = true;
+		hitbox = false;
 		break;
 	case 4:
 		posX = 20;
 		posY = 0;
 		name = "stone3";
-		hitbox = false;
+		hitbox = true;
 		break;
 	case 5:
 		posX = 100;
@@ -146,7 +146,7 @@ Block::Block(int zahl, sf::Texture &Ptexture)
 		posX = 60;
 		posY = 40;
 		name = "bush";
-		hitbox = false;
+		hitbox = true;
 		break;
 	case 23:
 		posX = 80;
@@ -176,7 +176,7 @@ Block::Block(int zahl, sf::Texture &Ptexture)
 		posX = 60;
 		posY = 60;
 		name = "bridge";
-		hitbox = false;
+		hitbox = true;
 		break;
 	case 28:
 		posX = 80;
@@ -295,4 +295,9 @@ void Block::Draw(int i, int z, sf::RenderWindow &window)
 	spriteblock.setPosition(i * 20, z * 20);
 	window.draw(spriteblock);
 }
+
+bool Block::getHitbox() {
+	return hitbox;
+}
+
 

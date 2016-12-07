@@ -10,6 +10,7 @@ public:
 	Block(int zahl, sf::Texture &);
 	~Block();
 	void Block::Draw(int i, int z, sf::RenderWindow &);
+	bool Block::getHitbox();
 
 };
 

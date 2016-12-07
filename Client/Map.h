@@ -12,5 +12,6 @@ public:
 	void Loadmap(std::string path);
 	int Map::GetHeight();
 	int Map::GetWidth();
+	bool Map::Collision(sf::FloatRect player);
 };
 
