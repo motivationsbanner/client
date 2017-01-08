@@ -4,13 +4,13 @@
 #include <SFML/Network/Http.hpp>
 
 #include "mainPlayer.h"
-
+#include "Fireball.h"
 
 // c++ includes
 #include <iostream>
 #include <string>
 
-mainPlayer::mainPlayer(int X, int Y,  std::string  pTexturefile)
+mainPlayer::mainPlayer(int X, int Y,  std::string  pTexturefile, sf::Texture pfireballtxt)
 {
 	//Name, X, Y, Items[], Gold, XP, Character Model, Skilltree, Hp
 	hp = 100;
@@ -20,6 +20,7 @@ mainPlayer::mainPlayer(int X, int Y,  std::string  pTexturefile)
 	posX = X;
 	posY = Y;
 	
+	fireballtxt = pfireballtxt;
 
 	// init movement variables
 	move = false;
@@ -65,24 +66,40 @@ void mainPlayer::Update(sf::View &view, Map &map) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && map.Collision(boundingBoxLeft)){
 			spriteposition = texture.getSize().x / 4 * 3;
 			posX = posX - speed;
+			direction = 4;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && map.Collision(boundingBoxRight)) {
 			spriteposition = texture.getSize().x / 4 * 2;
 			posX = posX + speed;
+			direction = 2;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && map.Collision(boundingBoxTop)){
 			spriteposition = texture.getSize().x / 4 ;
 			posY = posY - speed;
+			direction = 1;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && map.Collision(boundingBoxBottom)) {
 			spriteposition = 0;
 			posY = posY + speed;
+			direction = 3;
 		}
 		else {
 			move = false;
 		}
-	
+		// neue fireballs hinzufügen
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && fireballcd <= 0 && mana >= fireballmana) {
+			Fireball fire(posX, posY, 4, 25, direction, fireballtxt);
+			fireball.push_back(fire);
+			fireballcd = 15;
+			SpendMana(fireballmana);
+		}
 
+		//fireballs updaten und löschen wenn return true
+		for (int i = 0; i < fireball.size(); i++) {
+			if (fireball[i].Update(map)) {
+				fireball.erase(fireball.begin() +i);
+			}
+		}
 
 
 	//Hier werden alle Positionen geupdated
@@ -119,13 +136,16 @@ void mainPlayer::Update(sf::View &view, Map &map) {
 			sprite.setTextureRect(sf::IntRect(spriteposition, 0, texture.getSize().x / 4, texture.getSize().y / 3));
 		}
 	}
-
+	manaregen();
 	frame += 1;
-	
+	fireballcd -= 1;
 }
 
 void mainPlayer::DrawUI(sf::RenderWindow &window) {
 	window.draw(sprite);
+	for (int i = 0; i < fireball.size(); i++) {
+		fireball[i].Draw(window);
+	}
 	window.draw(manaspritek);
 	window.draw(manabarspritek);
 	window.draw(healthspritek);
@@ -136,11 +156,14 @@ void mainPlayer::DrawUI(sf::RenderWindow &window) {
 	window.draw(manasprite);
 	window.draw(manabarsprite);
 	window.draw(profilsprite);
-	
+
 }
 
 void mainPlayer::DrawMinimap(sf::RenderWindow &window) {
 	window.draw(sprite);
+	for (int i = 0; i < fireball.size(); i++) {
+		fireball[i].Draw(window);
+	}
 }
 
 void mainPlayer::TakeDamage(int damage) {
@@ -192,6 +215,10 @@ void mainPlayer::SetManaBar(sf::Texture &pmana, sf::Texture &pmanabar) {
 	manabarsprite.setTexture(manabar);
 	manasprite.setTexture(manatexture);
 	manasprite.setTextureRect(sf::IntRect(0, 0, (manatexture.getSize().x *  mana / maxmana), manatexture.getSize().y));
+}
+
+void mainPlayer::manaregen() {
+	if (mana + manaregeneration <= maxmana)SpendMana(-manaregeneration);
 }
 
 void mainPlayer::SetHealthBar(sf::Texture &phealth, sf::Texture &phealthbar) {

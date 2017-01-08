@@ -1,6 +1,7 @@
 #pragma once
 #include "Base.h"
 #include "Map.h"
+#include "Fireball.h"
 class mainPlayer : public Base
 {
 	std::string name;
@@ -21,7 +22,7 @@ class mainPlayer : public Base
 	sf::Sprite manabarspritek;
 	sf::Sprite sprite;
 	sf::Text txtname;
-
+	std::vector<Fireball> fireball;
 	bool move;
 	bool mainplayer;
 	int frame;
@@ -31,11 +32,16 @@ class mainPlayer : public Base
 	int mana;
 	int maxmana;
 	int speed = 2;
-
+	int direction = 3;
+	int fireballcd = 0;
+	int manaregeneration = 1;
+	int fireballmana = 25;
+	sf::Texture fireballtxt;
 public:
-	mainPlayer(int X, int Y,  std::string pTexturefile);
+	mainPlayer(int X, int Y,  std::string pTexturefile, sf::Texture pfireballtxt);
 	~mainPlayer();
 
+	void manaregen();
 	void Update(sf::View &, Map &);
 	void DrawMinimap(sf::RenderWindow &);
 	void DrawUI(sf::RenderWindow &);

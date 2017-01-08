@@ -15,8 +15,7 @@
 #include <iostream>
 #include <string>
 
-int main()
-{
+int main(){
 	sf::RenderWindow window(sf::VideoMode(920, 580), "Overkeggly!");
 	window.clear(sf::Color::Black);
 	window.display();
@@ -36,6 +35,7 @@ int main()
 	ServerConnection con("cravay.me", 4499);
 
 	Base base = Base();
+	//Texturen laden
 	sf::Texture keggly = base.loadTexture("textures/keggly.bmp");
 	sf::Texture manabar = base.loadTexture("textures/manabar.bmp");
 	sf::Texture mana = base.loadTexture("textures/mana.bmp");
@@ -43,12 +43,13 @@ int main()
 	sf::Texture health = base.loadTexture("textures/health.bmp");
 	sf::Texture login = base.loadTexture("textures/loginscreen.bmp");
 	sf::Sprite spritelogin;
+	sf::Texture fireball = base.loadTexture("textures/fireball.bmp");
 	spritelogin.setTexture(login);
+
 	//mainplayer position und daten aus der Datenbank lesen
 	int x = 300;
 	int y = 200;
-	mainPlayer mainplayer(x, y, "keggly");
-	//map vom server laden
+	mainPlayer mainplayer(x, y, "keggly", fireball);
 
 	//json file mit map vom Server laden
 	std::string mapstr = "19,19,19,19,19,19,19,19,19,19,19,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4|19,19,19,19,19,19,19,19,19,19,19,26,26,26,26,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4|19,19,19,19,19,19,19,19,19,19,19,26,26,24,26,0,0,0,0,0,26,0,23,23,0,0,0,0,0,0,0,4|19,19,19,19,19,19,19,19,19,19,19,24,24,24,26,0,0,0,0,0,26,26,23,26,25,25,23,28,29,29,29,4|19,19,19,19,19,19,19,19,19,19,19,23,26,24,26,0,0,0,0,24,24,24,24,25,25,23,0,31,36,0,36,4|19,19,19,19,19,19,19,19,19,19,19,26,23,23,26,0,0,0,0,25,25,0,24,24,23,26,25,31,0,36,0,4|19,19,19,19,19,19,19,19,19,19,19,26,26,23,26,0,0,0,0,25,26,23,23,24,24,26,25,31,0,36,36,4|19,19,19,19,19,19,19,19,19,19,19,25,26,23,25,0,0,0,0,25,26,23,26,24,24,0,25,33,34,34,34,4|4,26,25,25,25,26,24,24,23,26,26,25,26,26,25,0,0,0,0,25,0,23,26,24,23,23,0,0,0,0,37,4|4,26,25,26,26,25,25,26,23,23,23,25,26,26,25,0,0,0,0,25,25,23,26,24,24,24,23,0,0,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,23,23,23,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,38,39,0,0,0,0,0,0,0,0,0,0,0,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,40,41,5,5,0,5,0,0,0,0,0,0,0,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,5,0,5,0,0,0,0,0,0,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,0,4|4,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,4|4,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,4|4,22,0,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,1,27,27,27,27,27,27|4,22,0,22,0,0,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,1,1,1,1,1,1,27|4,22,0,22,22,0,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,1,1,1,1,1,1,27|4,22,0,0,0,0,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,1,1,1,1,1,1,27|4,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,42,43,1,1,1,1,27|4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,27,27,27,27,27,27,27,27";
@@ -59,10 +60,9 @@ int main()
 	//views erstellen
 	sf::View view(sf::Vector2f(x, y), sf::Vector2f(300, 200));
 	view.setViewport(sf::FloatRect(0, 0, 1, 1));
-
 	
-	sf::View minimapView(sf::Vector2f(60, map.GetWidth()/2), sf::Vector2f(map.GetHeight()*2, map.GetWidth()*2));
-	minimapView.setViewport(sf::FloatRect(0.5, 0.5, 0.5, 0.5/ map.GetHeight()*map.GetWidth()));
+	sf::View minimapView(sf::Vector2f(0,map.GetHeight()/3), sf::Vector2f(map.GetWidth()*2, map.GetHeight()*2));
+	minimapView.setViewport(sf::FloatRect(0.5, 0.5, 0.5, 0.5));
 
 	std::string namestr;
 	sf::Text nametext;
@@ -81,12 +81,10 @@ int main()
 	// players map
 	std::map<sf::Uint16, Player> players;
 	std::string looptype = "login";
-	//Update
-	while (window.isOpen())
-	{
 
-		sf::Event event;
-		
+	//Update
+	while (window.isOpen()){
+		sf::Event event;		
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
@@ -173,22 +171,19 @@ int main()
 					}
 				}
 			}
-		}	
+		}
+		//Tasten abfragen
 		if (event.key.code == sf::Keyboard::Escape) {
 			window.close();
 		}
-
 		if (looptype == "login") {
 			window.draw(spritelogin);
 			window.draw(nametext);
 			window.draw(passwordtext);
 			window.display();
-
 		}
 		else if (looptype == "game") {
-
 			con.setPosition(mainplayer.getPosX(), mainplayer.getPosY());
-
 			while (sf::Uint16 player_id = con.popNewPlayer()) {
 				auto coords = con.getPlayerPosition(player_id);
 				Player player;
@@ -230,6 +225,5 @@ int main()
 			window.display();
 		}
 	}
-	
 	return 0;
 }
