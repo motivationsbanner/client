@@ -47,7 +47,17 @@ mainPlayer::~mainPlayer()
 }
 
 void mainPlayer::Update(sf::View &view, Map &map, std::vector<Fireball> &fireball) {
-		
+	//cd von spell verkleinern und icon offcd bearbeiten
+	int fireballcdinprozent;
+	if (fireballcd >= 0) {
+		 fireballcdinprozent = 100-((double)fireballcd/ (double)fireballmaxcd*100);
+	}
+	else {
+		fireballcdinprozent = 100;
+	}
+		fireballoffcdsprite.setTextureRect(sf::IntRect(0, 0, 20, 20 * fireballcdinprozent / 100));
+	
+	
 	fireballcd -= 1;
 	//colliding blocks
 	sf::FloatRect boundingBox = sprite.getGlobalBounds();
@@ -91,7 +101,7 @@ void mainPlayer::Update(sf::View &view, Map &map, std::vector<Fireball> &firebal
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && fireballcd <= 0 && mana >= fireballmana) {
 		Fireball fire(posX, posY, 4, 25, direction, fireballtexture);
 		fireball.push_back(fire);
-		fireballcd = 15;
+		fireballcd = fireballmaxcd;
 		SpendMana(fireballmana);
 	}
 
@@ -118,6 +128,8 @@ void mainPlayer::Update(sf::View &view, Map &map, std::vector<Fireball> &firebal
 	manabarspritek.setPosition(posX - (manatexture.getSize().x / 4) + (texture.getSize().x / 8), posY - 20 + (manatexture.getSize().y / 2));
 	txtname.setPosition(posX - (txtname.getLocalBounds().width / 4) + (texture.getSize().x / 8), posY - 35);
 
+	fireballoncdsprite.setPosition(profilsprite.getPosition().x - 22, profilsprite.getPosition().y + 8);
+	fireballoffcdsprite.setPosition(profilsprite.getPosition().x - 22, profilsprite.getPosition().y + 8);
 	//hier wird die Position an den Server gesendet
 
 	// sprite texture show correct part.
@@ -157,7 +169,9 @@ void mainPlayer::DrawUI(sf::RenderWindow &window, std::vector<Fireball> &firebal
 	window.draw(manasprite);
 	window.draw(manabarsprite);
 	window.draw(profilsprite);
-
+	window.draw(fireballoncdsprite);
+	window.draw(fireballoffcdsprite);
+	
 }
 
 void mainPlayer::DrawMinimap(sf::RenderWindow &window, std::vector<Fireball> &fireball) {
@@ -234,4 +248,11 @@ void mainPlayer::SetHealthBar(sf::Texture &phealth, sf::Texture &phealthbar) {
 	healthbarsprite.setTexture(healthbar);
 	healthsprite.setTexture(health);
 	healthsprite.setTextureRect(sf::IntRect(0, 0, (health.getSize().x *  hp / maxhp), health.getSize().y));
+}
+
+void mainPlayer::SetFireballTextures(sf::Texture &oncd, sf::Texture &offcd) {
+	fireballoncdtexture = oncd;
+	fireballoffcdtexture = offcd;
+	fireballoncdsprite.setTexture(fireballoncdtexture);
+	fireballoffcdsprite.setTexture(fireballoffcdtexture);
 }

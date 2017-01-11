@@ -25,6 +25,8 @@ class mainPlayer : public Base
 	sf::Texture fireballtexture;
 	sf::Texture fireballoncdtexture;
 	sf::Texture fireballoffcdtexture;
+	sf::Sprite fireballoncdsprite;
+	sf::Sprite fireballoffcdsprite;
 	bool move;
 	bool mainplayer;
 	int frame;
@@ -37,6 +39,7 @@ class mainPlayer : public Base
 	int direction = 3;
 	int manaregeneration = 1;
 	int fireballmana = 25;
+	int fireballmaxcd = 15;
 public:
 	int fireballcd = 0;
 	mainPlayer(int X, int Y,  std::string pTexturefile);
@@ -52,5 +55,6 @@ public:
 	void SetName(sf::Font &, std::string);
 	void SetManaBar(sf::Texture &pmana, sf::Texture &pmanabar);
 	void SetHealthBar(sf::Texture &pmana, sf::Texture &pmanabar);
+	void SetFireballTextures(sf::Texture &, sf::Texture &);
 };
 

@@ -45,6 +45,8 @@ int main(){
 	sf::Texture login = base.loadTexture("textures/loginscreen.bmp");
 	sf::Sprite spritelogin;
 	sf::Texture fireballtxt = base.loadTexture("textures/fireball.bmp");
+	sf::Texture fireballtxtoncd = base.loadTexture("textures/fireballicononcd.bmp");
+	sf::Texture fireballtxtoffcd = base.loadTexture("textures/fireballiconup.bmp");
 	spritelogin.setTexture(login);
 
 	//mainplayer position und daten aus der Datenbank lesen
@@ -139,6 +141,7 @@ int main(){
 						mainplayer.SetTexture(keggly);
 						mainplayer.SetManaBar(mana, manabar);
 						mainplayer.SetHealthBar(health, healthbar);
+						mainplayer.SetFireballTextures(fireballtxtoncd, fireballtxtoffcd);
 					}
 					else if (event.text.unicode == 9) {
 						nameselected = true;
@@ -169,6 +172,7 @@ int main(){
 						mainplayer.SetTexture(keggly);
 						mainplayer.SetManaBar(mana, manabar);
 						mainplayer.SetHealthBar(health, healthbar);
+						mainplayer.SetFireballTextures(fireballtxtoncd, fireballtxtoffcd);
 					}
 				}
 			}
