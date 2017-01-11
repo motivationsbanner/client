@@ -22,7 +22,9 @@ class mainPlayer : public Base
 	sf::Sprite manabarspritek;
 	sf::Sprite sprite;
 	sf::Text txtname;
-	std::vector<Fireball> fireball;
+	sf::Texture fireballtexture;
+	sf::Texture fireballoncdtexture;
+	sf::Texture fireballoffcdtexture;
 	bool move;
 	bool mainplayer;
 	int frame;
@@ -33,18 +35,17 @@ class mainPlayer : public Base
 	int maxmana;
 	int speed = 2;
 	int direction = 3;
-	int fireballcd = 0;
 	int manaregeneration = 1;
 	int fireballmana = 25;
-	sf::Texture fireballtxt;
 public:
-	mainPlayer(int X, int Y,  std::string pTexturefile, sf::Texture pfireballtxt);
+	int fireballcd = 0;
+	mainPlayer(int X, int Y,  std::string pTexturefile);
 	~mainPlayer();
 
 	void manaregen();
-	void Update(sf::View &, Map &);
-	void DrawMinimap(sf::RenderWindow &);
-	void DrawUI(sf::RenderWindow &);
+	void Update(sf::View &, Map &, std::vector<Fireball> &);
+	void DrawMinimap(sf::RenderWindow &, std::vector<Fireball> &);
+	void DrawUI(sf::RenderWindow &, std::vector<Fireball> &);
 	void TakeDamage(int damage);
 	void SpendMana(int manaspent);
 	void SetTexture(sf::Texture &);

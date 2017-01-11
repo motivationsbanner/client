@@ -10,6 +10,7 @@
 #include "ServerConnection.h"
 #include "mainPlayer.h"
 #include "Base.h"
+#include "Fireball.h"
 
 // c++ includes
 #include <iostream>
@@ -31,7 +32,7 @@ int main(){
 	loadingtxt.setPosition(window.getSize().x / 2 - loadingtxt.getLocalBounds().width / 2, 280);
 	window.draw(loadingtxt);
 	window.display();
-
+	std::vector<Fireball> fireball;
 	ServerConnection con("cravay.me", 4499);
 
 	Base base = Base();
@@ -43,13 +44,13 @@ int main(){
 	sf::Texture health = base.loadTexture("textures/health.bmp");
 	sf::Texture login = base.loadTexture("textures/loginscreen.bmp");
 	sf::Sprite spritelogin;
-	sf::Texture fireball = base.loadTexture("textures/fireball.bmp");
+	sf::Texture fireballtxt = base.loadTexture("textures/fireball.bmp");
 	spritelogin.setTexture(login);
 
 	//mainplayer position und daten aus der Datenbank lesen
 	int x = 300;
 	int y = 200;
-	mainPlayer mainplayer(x, y, "keggly", fireball);
+	mainPlayer mainplayer(x, y, "keggly");
 
 	//json file mit map vom Server laden
 	std::string mapstr = "19,19,19,19,19,19,19,19,19,19,19,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4|19,19,19,19,19,19,19,19,19,19,19,26,26,26,26,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4|19,19,19,19,19,19,19,19,19,19,19,26,26,24,26,0,0,0,0,0,26,0,23,23,0,0,0,0,0,0,0,4|19,19,19,19,19,19,19,19,19,19,19,24,24,24,26,0,0,0,0,0,26,26,23,26,25,25,23,28,29,29,29,4|19,19,19,19,19,19,19,19,19,19,19,23,26,24,26,0,0,0,0,24,24,24,24,25,25,23,0,31,36,0,36,4|19,19,19,19,19,19,19,19,19,19,19,26,23,23,26,0,0,0,0,25,25,0,24,24,23,26,25,31,0,36,0,4|19,19,19,19,19,19,19,19,19,19,19,26,26,23,26,0,0,0,0,25,26,23,23,24,24,26,25,31,0,36,36,4|19,19,19,19,19,19,19,19,19,19,19,25,26,23,25,0,0,0,0,25,26,23,26,24,24,0,25,33,34,34,34,4|4,26,25,25,25,26,24,24,23,26,26,25,26,26,25,0,0,0,0,25,0,23,26,24,23,23,0,0,0,0,37,4|4,26,25,26,26,25,25,26,23,23,23,25,26,26,25,0,0,0,0,25,25,23,26,24,24,24,23,0,0,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,23,23,23,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,38,39,0,0,0,0,0,0,0,0,0,0,0,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,40,41,5,5,0,5,0,0,0,0,0,0,0,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,5,0,5,0,0,0,0,0,0,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,0,4|4,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,4|4,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,4|4,22,0,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,1,27,27,27,27,27,27|4,22,0,22,0,0,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,1,1,1,1,1,1,27|4,22,0,22,22,0,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,1,1,1,1,1,1,27|4,22,0,0,0,0,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,1,1,1,1,1,1,27|4,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,42,43,1,1,1,1,27|4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,27,27,27,27,27,27,27,27";
@@ -194,7 +195,8 @@ int main(){
 				players.erase(player_id);
 			}
 
-			mainplayer.Update(view,map);
+			mainplayer.Update(view,map, fireball);
+
 
 			// Draw View
 			window.clear(sf::Color::Black);
@@ -210,7 +212,7 @@ int main(){
 				player.second.Update(view);
 				player.second.DrawUI(window);
 			}
-			mainplayer.DrawUI(window);
+			mainplayer.DrawUI(window,fireball);
 
 			//Draw Minimap
 			window.setView(minimapView);
@@ -219,7 +221,7 @@ int main(){
 				auto position = con.getPlayerPosition(player.first);
 				player.second.DrawMinimap(window);
 			}
-			mainplayer.DrawMinimap(window);
+			mainplayer.DrawMinimap(window, fireball);
 
 			//Alles anzeigen lassen
 			window.display();

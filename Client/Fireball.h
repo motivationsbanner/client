@@ -9,9 +9,9 @@ public:
 	int speed;
 	int life = 90;
 	int damage;
-	sf::Texture texture;
+
 	sf::Sprite sprite;
-	Fireball(int x, int y, int speed, int damage, int direction, sf::Texture fireballtxt);
+	Fireball(int x, int y, int speed, int damage, int direction, sf::Texture &);
 	~Fireball();
 	bool Update(Map &map);
 	void Draw(sf::RenderWindow &);

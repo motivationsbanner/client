@@ -2,19 +2,16 @@
 #include "Map.h"
 
 
-Fireball::Fireball(int x, int y, int pspeed, int pdamage, int pdirection, sf::Texture fireballtxt)
+Fireball::Fireball(int x, int y, int pspeed, int pdamage, int pdirection, sf::Texture &fireballtexture)
 {
 	posX = x;
-	posY = y;
+	posY = y+12;
 	speed = pspeed;
 	damage = pdamage;
 	direction = pdirection; // sets the direction the ball will travel 1 = up 2= right 3 = down 4 = left
-	texture = fireballtxt;
-	sprite.setTexture(texture);
+	sprite.setTexture(fireballtexture);
 	sprite.setPosition(posX, posY);
-	sprite.setTextureRect(sf::IntRect(0, 0, 15, 15));
 }
-
 
 Fireball::~Fireball()
 {
@@ -50,7 +47,7 @@ bool Fireball::Update(Map &map) {
 	//überprüfen ob ein gegner getroffen wurde
 
 	//überprüffen ob der ball in eine hitbox geworfen wurde
-	if (!map.Collision(boundingBoxBottom) || !map.Collision(boundingBoxTop) || !map.Collision(boundingBoxRight) || !map.Collision(boundingBoxLeft))return true;
+	if ((!map.Collision(boundingBoxBottom)&& direction == 3)|| (!map.Collision(boundingBoxTop)&& direction == 1)|| (!map.Collision(boundingBoxRight)&& direction == 2)|| (!map.Collision(boundingBoxLeft)&& direction == 4))return true;
 	//das leben des balles verkleinern
 	life = life - 1;
 	if (life == 0) return true;
