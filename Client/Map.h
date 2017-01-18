@@ -13,5 +13,6 @@ public:
 	int Map::GetHeight();
 	int Map::GetWidth();
 	bool Map::Collision(sf::FloatRect player);
+	int Map::Collision(sf::FloatRect player, std::string direction, int speed);
 };
 

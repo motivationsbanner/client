@@ -64,34 +64,26 @@ void mainPlayer::Update(sf::View &view, Map &map, std::vector<Fireball> &firebal
 	boundingBox.top = boundingBox.top+boundingBox.height-15;
 	boundingBox.height = 15;
 
-	sf::FloatRect boundingBoxTop = boundingBox;
-	boundingBoxTop.top = boundingBoxTop.top - speed;
-	sf::FloatRect boundingBoxBottom = boundingBox;
-	boundingBoxBottom.top = boundingBoxBottom.top + speed;
-	sf::FloatRect boundingBoxLeft = boundingBox;
-	boundingBoxLeft.left = boundingBoxLeft.left - speed;
-	sf::FloatRect boundingBoxRight = boundingBox;
-	boundingBoxRight.left = boundingBoxRight.left + speed;
 	// Movement
 	move = true;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && map.Collision(boundingBoxLeft)){
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !map.Collision(boundingBox,"l",speed) == 0){
 		spriteposition = texture.getSize().x / 4 * 3;
-		posX = posX - speed;
+		posX = posX - map.Collision(boundingBox, "l", speed);
 		direction = 4;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && map.Collision(boundingBoxRight)) {
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !map.Collision(boundingBox, "r", speed) == 0) {
 		spriteposition = texture.getSize().x / 4 * 2;
-		posX = posX + speed;
+		posX = posX + map.Collision(boundingBox, "r", speed);
 		direction = 2;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && map.Collision(boundingBoxTop)){
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !map.Collision(boundingBox, "u", speed) == 0){
 		spriteposition = texture.getSize().x / 4 ;
-		posY = posY - speed;
+		posY = posY - map.Collision(boundingBox, "u", speed);
 		direction = 1;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && map.Collision(boundingBoxBottom)) {
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !map.Collision(boundingBox, "d", speed) == 0) {
 		spriteposition = 0;
-		posY = posY + speed;
+		posY = posY + map.Collision(boundingBox, "d", speed);
 		direction = 3;
 	}
 	else {

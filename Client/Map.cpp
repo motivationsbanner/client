@@ -98,3 +98,31 @@ bool Map::Collision(sf::FloatRect player) {
 	return true;
 }
 
+int Map::Collision(sf::FloatRect player, std::string direction, int speed) {
+	int count = 0;
+	while (count <= speed) {
+		//move playerrect
+		if (direction == "u") {
+			player.top--;
+		}
+		else if (direction == "d") {
+			player.top++;
+		}
+		else if (direction == "l") {
+			player.left--;
+		}
+		else if (direction == "r") {
+			player.left++;
+		}
+		else {
+			break;
+		}
+		//check collision
+		if (!Collision(player)) {
+			break;
+		}
+		count++;
+	}
+	return count;
+}
+
