@@ -53,8 +53,8 @@ public:
 	void SpendMana(int manaspent);
 	void SetTexture(sf::Texture &);
 	void SetName(sf::Font &, std::string);
-	void SetManaBar(sf::Texture &pmana, sf::Texture &pmanabar);
-	void SetHealthBar(sf::Texture &pmana, sf::Texture &pmanabar);
+	void SetManaBar(sf::Texture &, sf::Texture &);
+	void SetHealthBar(sf::Texture &, sf::Texture &);
 	void SetFireballTextures(sf::Texture &, sf::Texture &);
 };
 

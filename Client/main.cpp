@@ -11,6 +11,7 @@
 #include "mainPlayer.h"
 #include "Base.h"
 #include "Fireball.h"
+#include "Mob.h"
 
 // c++ includes
 #include <iostream>
@@ -33,6 +34,7 @@ int main(){
 	window.draw(loadingtxt);
 	window.display();
 	std::vector<Fireball> fireball;
+	std::vector<Mob> mobs;
 	ServerConnection con("cravay.me", 4499);
 
 	Base base = Base();
@@ -43,6 +45,7 @@ int main(){
 	sf::Texture healthbar = base.loadTexture("textures/healthbar.bmp");
 	sf::Texture health = base.loadTexture("textures/health.bmp");
 	sf::Texture login = base.loadTexture("textures/loginscreen.bmp");
+	sf::Texture rat = base.loadTexture("textures/rat.bmp");
 	sf::Sprite spritelogin;
 	sf::Texture fireballtxt = base.loadTexture("textures/fireball.bmp");
 	sf::Texture fireballtxtoncd = base.loadTexture("textures/fireballicononcd.bmp");
@@ -81,6 +84,10 @@ int main(){
 	passwordtext.setPosition(window.getSize().x / 2 - passwordtext.getLocalBounds().width / 2, 230);
 	bool passwordselected = true;
 
+	Mob mob1(300, 300);
+	mob1.SetTexture(rat);
+	mob1.SetHealthBar(health, healthbar);
+	mobs.push_back(mob1);
 	// players map
 	std::map<sf::Uint16, Player> players;
 	std::string looptype = "login";
@@ -142,6 +149,7 @@ int main(){
 						mainplayer.SetManaBar(mana, manabar);
 						mainplayer.SetHealthBar(health, healthbar);
 						mainplayer.SetFireballTextures(fireballtxtoncd, fireballtxtoffcd);
+						
 					}
 					else if (event.text.unicode == 9) {
 						nameselected = true;
@@ -200,7 +208,12 @@ int main(){
 			}
 
 			mainplayer.Update(view,map, fireball);
-
+			//fireballs updaten und löschen wenn return true
+			for (int i = 0; i < fireball.size(); i++) {
+				if (fireball[i].Update(map, mobs)) {
+					fireball.erase(fireball.begin() + i);
+				}
+			}
 
 			// Draw View
 			window.clear(sf::Color::Black);
@@ -216,6 +229,10 @@ int main(){
 				player.second.Update(view);
 				player.second.DrawUI(window);
 			}
+			for (Mob &mob : mobs) {
+				mob.Update();
+				mob.Draw(window);
+			}
 			mainplayer.DrawUI(window,fireball);
 
 			//Draw Minimap
@@ -224,6 +241,9 @@ int main(){
 			for (auto &player : players) {
 				auto position = con.getPlayerPosition(player.first);
 				player.second.DrawMinimap(window);
+			}
+			for (Mob &mob : mobs) {
+				mob.DrawMap(window);
 			}
 			mainplayer.DrawMinimap(window, fireball);
 

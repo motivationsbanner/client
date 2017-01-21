@@ -97,12 +97,7 @@ void mainPlayer::Update(sf::View &view, Map &map, std::vector<Fireball> &firebal
 		SpendMana(fireballmana);
 	}
 
-	//fireballs updaten und löschen wenn return true
-	for (int i = 0; i < fireball.size(); i++) {
-		if (fireball[i].Update(map)) {
-			fireball.erase(fireball.begin() +i);
-		}
-	}
+
 
 
 	//Hier werden alle Positionen geupdated
