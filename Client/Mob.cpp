@@ -39,15 +39,17 @@ void Mob::SetTexture(sf::Texture &ptexture)
 	mobsprite.setTextureRect(sf::IntRect(direction*mobtexture.getSize().x/4, spriteposition * mobtexture.getSize().y / 3, mobtexture.getSize().x / 4, mobtexture.getSize().y / 3));
 }
 
-void Mob::TakeDamage(int damage)
+bool Mob::TakeDamage(int damage)
 {
 	if (hp - damage <= 0) {
-		//er hat verloren
+		return true;
 	}
 	else {
 		hp = hp - damage;
 		healthsprite.setTextureRect(sf::IntRect(0, 0, (health.getSize().x *  hp / maxhp), health.getSize().y));
+		return false;
 	}
+	return false;
 }
 
 sf::FloatRect Mob::getFloatRect() {

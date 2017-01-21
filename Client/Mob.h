@@ -23,7 +23,7 @@ public:
 	void Mob::Draw(sf::RenderWindow &window);
 	void Mob::DrawMap(sf::RenderWindow &window);
 	void Mob::SetTexture(sf::Texture &);
-	void Mob::TakeDamage(int damage);
+	bool Mob::TakeDamage(int damage);
 	void Mob::SetHealthBar(sf::Texture &, sf::Texture &);
 	sf::FloatRect Mob::getFloatRect();
 };

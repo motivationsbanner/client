@@ -207,6 +207,25 @@ int main(){
 				players.erase(player_id);
 			}
 
+			//check if there are no mobs left in the mobs vector
+			if (mobs.size() <= 0) {
+				int randx = 20;
+				int randy = 20;
+				//give new rand position and check if position collides with map
+				while(true) {
+					 randx = rand() % map.GetHeight() + 1;
+					 randy = rand() % map.GetWidth() + 1;
+					if (map.Collision(sf::FloatRect(randx, randy, rat.getSize().x / 4, rat.getSize().y / 3)) && sf::FloatRect(0,0,map.GetWidth(),map.GetHeight()).intersects(sf::FloatRect(randx, randy, rat.getSize().x / 4, rat.getSize().y / 3))) {
+						break;
+					}
+				}
+
+
+				mobs.push_back(Mob(randx, randy));
+				mobs[0].SetHealthBar(health, healthbar);
+				mobs[0].SetTexture(rat);
+			}
+
 			mainplayer.Update(view,map, fireball);
 			//fireballs updaten und löschen wenn return true
 			for (int i = 0; i < fireball.size(); i++) {

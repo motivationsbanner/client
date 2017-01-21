@@ -47,12 +47,13 @@ bool Fireball::Update(Map &map, std::vector<Mob> &mobs) {
 	}
 	sprite.setPosition(posX, posY);
 	//überprüfen ob ein gegner getroffen wurde
-	for (Mob &mob : mobs) {
-		
-		sf::FloatRect mobrect = mob.getFloatRect();
+	for (int i = 0; i < mobs.size(); i++) {
+		sf::FloatRect mobrect = mobs[i].getFloatRect();
 		sf::FloatRect fireballrect(posX, posY, texture.getSize().x, texture.getSize().y);
 		if (mobrect.intersects(fireballrect)) {
-			mob.TakeDamage(damage);
+			if (mobs[i].TakeDamage(damage)) {
+				mobs.erase(mobs.begin()+i);
+			}
 			return true;
 		}
 	}
