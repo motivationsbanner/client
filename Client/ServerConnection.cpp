@@ -11,7 +11,7 @@ void ServerConnection::send() {
 		packet << last_received_command << x << y;
 
 		if (socket.send(packet, recipient, port) != sf::Socket::Done) {
-			throw std::exception("Failed to send packet");
+			throw std::runtime_error("Failed to send packet");
 		}
 		data_mutex.unlock();
 
@@ -32,17 +32,17 @@ void ServerConnection::receive() {
 		status = socket.receive(packet, sender, port);
 
 		if (status != sf::Socket::Done) {
-			throw std::exception("Failed to receive packet");
+			throw std::runtime_error("Failed to receive packet");
 		}
 
-		sf::Uint8 CommandType;
+		sf::Uint8 commandType;
 		sf::Uint16 command_id, player_id, x, y;
 
 		data_mutex.lock();
 		do {
-			packet >> CommandType;
+			packet >> commandType;
 
-			switch (CommandType) {
+			switch (commandType) {
 			case CommandType::player_join:
 				packet >> command_id >> player_id >> x >> y;
 				
@@ -66,7 +66,7 @@ void ServerConnection::receive() {
 				break;
 			}
 
-		} while (CommandType != CommandType::null);
+		} while (commandType != CommandType::null);
 
 		while ((packet >> player_id >> x >> y)) {
 			players[player_id] = sf::Vector2<sf::Uint16>(x, y);
@@ -87,7 +87,7 @@ ServerConnection::ServerConnection(std::string adress, int port) {
 	recipient = adress;
 
 	if (socket.bind(sf::Socket::AnyPort) != sf::Socket::Done) {
-		throw std::exception("Failed to bind socket");
+		throw std::runtime_error("Failed to bind socket");
 	}
 
 	thread_receive = new sf::Thread(&ServerConnection::receive, this);
