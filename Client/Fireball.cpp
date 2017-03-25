@@ -53,12 +53,13 @@ int Fireball::Update(Map &map, std::vector<Mob> &mobs) {
 		if (mobrect.intersects(fireballrect)) {
 			if (mobs[i].TakeDamage(damage)) {
 				mobs.erase(mobs.begin()+i);
+				return mobs[i].getXp();
 			}
-			return mobs[i].getXp();
+			return 0;
 		}
 	}
 	//überprüffen ob der ball in eine hitbox geworfen wurde
-	if ((!map.Collision(boundingBoxBottom)&& direction == 3)|| (!map.Collision(boundingBoxTop)&& direction == 1)|| (!map.Collision(boundingBoxRight)&& direction == 2)|| (!map.Collision(boundingBoxLeft)&& direction == 4))return true;
+	if ((!map.Collision(boundingBoxBottom)&& direction == 3)|| (!map.Collision(boundingBoxTop)&& direction == 1)|| (!map.Collision(boundingBoxRight)&& direction == 2)|| (!map.Collision(boundingBoxLeft)&& direction == 4))return 0;
 	//das leben des balles verkleinern
 	life = life - 1;
 	if (life == 0) return 0;

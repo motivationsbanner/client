@@ -11,7 +11,7 @@
 #include <iostream>
 #include <string>
 
-mainPlayer::mainPlayer(int X, int Y,  std::string  pTexturefile)
+mainPlayer::mainPlayer(int X, int Y,  std::string  pTexturefile, sf::Font &pfont)
 {
 	//Name, X, Y, Items[], Gold, XP, Character Model, Skilltree, Hp
 	hp = 100;
@@ -20,8 +20,7 @@ mainPlayer::mainPlayer(int X, int Y,  std::string  pTexturefile)
 	maxmana = 100;
 	posX = X;
 	posY = Y;
-	
-
+	font = pfont;
 	fireballtexture = loadTexture("textures/fireball.bmp");
 	// init movement variables
 	move = false;
@@ -107,7 +106,7 @@ void mainPlayer::Update(sf::View &view, Map &map, std::vector<Mob> &mobs) {
 			
 			fireball.erase(fireball.begin() + i);
 			if (xpreturned > 0) {
-				SetXp(xpreturned);
+    				SetXp(xpreturned);
 			}
 			
 		}
@@ -117,6 +116,13 @@ void mainPlayer::Update(sf::View &view, Map &map, std::vector<Mob> &mobs) {
 	//Hier werden alle Positionen geupdated
 	sprite.setPosition(posX, posY);
 	view.setCenter(posX, posY);
+
+
+	
+	xpsprite.setPosition(posX +  (texture.getSize().x / 8) + (health.getSize().x / 2) + 2 + xpbar.getSize().x, posY + (texture.getSize().y / 3) + 51 + xpbar.getSize().y);
+	xpbarsprite.setPosition(posX +  (texture.getSize().x / 8) + (health.getSize().x / 2) + 2, posY + (texture.getSize().y / 3 + 51));
+	txtlvl.setPosition(xpbarsprite.getPosition().x+ xpbar.getSize().x+2, xpbarsprite.getPosition().y);
+
 	healthsprite.setPosition(posX - (health.getSize().x / 2) + (texture.getSize().x / 8), posY + (texture.getSize().y / 3) + 42);
 	healthbarsprite.setPosition(posX - (healthbar.getSize().x / 2) + (texture.getSize().x / 8), posY + (texture.getSize().y / 3 + 42));
 	manasprite.setPosition(posX - (manatexture.getSize().x / 2) + (texture.getSize().x / 8), posY + (texture.getSize().y / 3) + 56);
@@ -169,9 +175,12 @@ void mainPlayer::DrawUI(sf::RenderWindow &window) {
 	window.draw(healthbarsprite);
 	window.draw(manasprite);
 	window.draw(manabarsprite);
+	window.draw(xpsprite);
+	window.draw(xpbarsprite);
 	window.draw(profilsprite);
 	window.draw(fireballoncdsprite);
 	window.draw(fireballoffcdsprite);
+	window.draw(txtlvl);
 	
 }
 
@@ -211,12 +220,20 @@ void mainPlayer::SetTexture(sf::Texture &newtexture) {
 	sprite.setTextureRect(sf::IntRect(spriteposition, 0, texture.getSize().x / 4, texture.getSize().y / 3));
 }
 
-void mainPlayer::SetName(sf::Font &font, std::string Pname) {
+void mainPlayer::SetName(std::string Pname) {
 	txtname.setFont(font);
 	txtname.setCharacterSize(24);
 	txtname.setScale(0.5f, 0.5f);
 	txtname.setString(Pname);
 	txtname.setPosition(posX - (txtname.getLocalBounds().width / 4) + (texture.getSize().x / 8), posY - 15);
+}
+
+void mainPlayer::SetLevel() {
+	txtlvl.setFont(font);
+	txtlvl.setCharacterSize(24);
+	txtlvl.setScale(0.5f, 0.5f);
+	txtlvl.setString(std::to_string(level));
+	txtlvl.setPosition(xpbarsprite.getPosition().x + xpbar.getSize().x + 2, xpbarsprite.getPosition().y);
 }
 
 void mainPlayer::SetManaBar(sf::Texture &pmana, sf::Texture &pmanabar) {
@@ -258,8 +275,29 @@ void mainPlayer::SetFireballTextures(sf::Texture &oncd, sf::Texture &offcd) {
 	fireballoffcdsprite.setTexture(fireballoffcdtexture);
 }
 
+void mainPlayer::SetXPBar(sf::Texture &pxp, sf::Texture &pxpbar) {
+	xptexture = pxp;
+	xpbar = pxpbar;
+
+	xpbarsprite.setTexture(xpbar);
+	xpsprite.setTexture(xptexture);
+	xpsprite.setTextureRect(sf::IntRect(0, 0, (xptexture.getSize().x), xptexture.getSize().y *  xp / maxxp));
+	xpsprite.setRotation(xpsprite.getRotation() + 180);
+	SetLevel();
+}
+
 void mainPlayer::SetXp(int pxp) {
-	xp = pxp + xp;
+	if (pxp + xp > maxxp) {
+		//level up
+		level = level + 1;
+		SetLevel();
+		xp = pxp + xp - maxxp;
+	}
+	else {
+		xp = pxp + xp;
+	}
+	
+	xpsprite.setTextureRect(sf::IntRect(0, 0, xptexture.getSize().x, (xptexture.getSize().y *  xp / maxxp)));
 }
 
 int mainPlayer::GetXp() {

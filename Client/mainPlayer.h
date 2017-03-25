@@ -18,6 +18,11 @@ class mainPlayer : public Base
 	sf::Texture manabar;
 	sf::Sprite manasprite;
 	sf::Sprite manabarsprite;
+	sf::Texture xptexture;
+	sf::Texture xpbar;
+	sf::Sprite xpsprite;
+	sf::Sprite xpbarsprite;
+
 	sf::Sprite manaspritek;
 	sf::Sprite manabarspritek;
 	sf::Sprite sprite;
@@ -27,6 +32,7 @@ class mainPlayer : public Base
 	sf::Texture fireballoffcdtexture;
 	sf::Sprite fireballoncdsprite;
 	sf::Sprite fireballoffcdsprite;
+	sf::Text txtlvl;
 	bool move;
 	bool mainplayer;
 	int frame;
@@ -43,10 +49,11 @@ class mainPlayer : public Base
 	int xp = 0;
 	int maxxp = 20;
 	int level = 1;
+	sf::Font font;
 public:
 	int fireballcd = 0;
 	std::vector<Fireball> fireball;
-	mainPlayer(int X, int Y,  std::string pTexturefile);
+	mainPlayer(int X, int Y,  std::string pTexturefile, sf::Font &pfont);
 	~mainPlayer();
 
 	void manaregen();
@@ -56,11 +63,13 @@ public:
 	void TakeDamage(int damage);
 	void SpendMana(int manaspent);
 	void SetTexture(sf::Texture &);
-	void SetName(sf::Font &, std::string);
+	void SetName(std::string);
 	void SetManaBar(sf::Texture &, sf::Texture &);
 	void SetHealthBar(sf::Texture &, sf::Texture &);
 	void SetFireballTextures(sf::Texture &, sf::Texture &);
+	void SetXPBar(sf::Texture &pxp, sf::Texture &pxpbar);
 	void SetXp(int pxp);
 	int GetXp();
+	void SetLevel();
 };
 

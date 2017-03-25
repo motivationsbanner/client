@@ -9,7 +9,7 @@ class Mob :
 	int speed = 2;
 	int direction = 1;
 	int spriteposition = 0;
-	int xp = 2;
+	int xp = 11;
 	sf::Texture mobtexture;
 	sf::Sprite mobsprite;
 	sf::Sprite healthsprite;

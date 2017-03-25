@@ -44,6 +44,8 @@ int main(){
 	sf::Texture mana = base.loadTexture("textures/mana.bmp");
 	sf::Texture healthbar = base.loadTexture("textures/healthbar.bmp");
 	sf::Texture health = base.loadTexture("textures/health.bmp");
+	sf::Texture xpbar = base.loadTexture("textures/xpbar.bmp");
+	sf::Texture xp = base.loadTexture("textures/xp.bmp");
 	sf::Texture login = base.loadTexture("textures/loginscreen.bmp");
 	sf::Texture rat = base.loadTexture("textures/rat.bmp");
 	sf::Sprite spritelogin;
@@ -55,7 +57,7 @@ int main(){
 	//mainplayer position und daten aus der Datenbank lesen
 	int x = 300;
 	int y = 200;
-	mainPlayer mainplayer(x, y, "keggly");
+	mainPlayer mainplayer(x, y, "keggly", font);
 
 	//json file mit map vom Server laden
 	std::string mapstr = "19,19,19,19,19,19,19,19,19,19,19,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4|19,19,19,19,19,19,19,19,19,19,19,26,26,26,26,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4|19,19,19,19,19,19,19,19,19,19,19,26,26,24,26,0,0,0,0,0,26,0,23,23,0,0,0,0,0,0,0,4|19,19,19,19,19,19,19,19,19,19,19,24,24,24,26,0,0,0,0,0,26,26,23,26,25,25,23,28,29,29,29,4|19,19,19,19,19,19,19,19,19,19,19,23,26,24,26,0,0,0,0,24,24,24,24,25,25,23,0,31,36,0,36,4|19,19,19,19,19,19,19,19,19,19,19,26,23,23,26,0,0,0,0,25,25,0,24,24,23,26,25,31,0,36,0,4|19,19,19,19,19,19,19,19,19,19,19,26,26,23,26,0,0,0,0,25,26,23,23,24,24,26,25,31,0,36,36,4|19,19,19,19,19,19,19,19,19,19,19,25,26,23,25,0,0,0,0,25,26,23,26,24,24,0,25,33,34,34,34,4|4,26,25,25,25,26,24,24,23,26,26,25,26,26,25,0,0,0,0,25,0,23,26,24,23,23,0,0,0,0,37,4|4,26,25,26,26,25,25,26,23,23,23,25,26,26,25,0,0,0,0,25,25,23,26,24,24,24,23,0,0,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,23,23,23,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,38,39,0,0,0,0,0,0,0,0,0,0,0,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,40,41,5,5,0,5,0,0,0,0,0,0,0,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,5,0,5,0,0,0,0,0,0,0,0,4|4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,0,4|4,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,4|4,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,4|4,22,0,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,1,27,27,27,27,27,27|4,22,0,22,0,0,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,1,1,1,1,1,1,27|4,22,0,22,22,0,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,1,1,1,1,1,1,27|4,22,0,0,0,0,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,1,1,1,1,1,1,27|4,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,42,43,1,1,1,1,27|4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,27,27,27,27,27,27,27,27";
@@ -144,12 +146,12 @@ int main(){
 						//send data to server to check if positive change looptype
 						looptype = "game";
 						//change data to data sent by server
-						mainplayer.SetName(font, namestr);
+						mainplayer.SetName(namestr);
 						mainplayer.SetTexture(keggly);
 						mainplayer.SetManaBar(mana, manabar);
 						mainplayer.SetHealthBar(health, healthbar);
 						mainplayer.SetFireballTextures(fireballtxtoncd, fireballtxtoffcd);
-						
+						mainplayer.SetXPBar(xp, xpbar);
 					}
 					else if (event.text.unicode == 9) {
 						nameselected = true;
@@ -176,11 +178,12 @@ int main(){
 						//send data to server to check if positive change looptype
 						looptype = "game";
 						//change data to data sent by server
-						mainplayer.SetName(font, namestr);
+						mainplayer.SetName(namestr);
 						mainplayer.SetTexture(keggly);
 						mainplayer.SetManaBar(mana, manabar);
 						mainplayer.SetHealthBar(health, healthbar);
 						mainplayer.SetFireballTextures(fireballtxtoncd, fireballtxtoffcd);
+						mainplayer.SetXPBar(xp, xpbar);
 					}
 				}
 			}
