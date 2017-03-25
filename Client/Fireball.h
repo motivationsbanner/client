@@ -14,7 +14,7 @@ public:
 	sf::Sprite sprite;
 	Fireball(int x, int y, int speed, int damage, int direction, sf::Texture &);
 	~Fireball();
-	bool Update(Map &map, std::vector<Mob> &mobs);
+	int Update(Map &map, std::vector<Mob> &mobs);
 	void Draw(sf::RenderWindow &);
 };
 

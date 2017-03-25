@@ -5,6 +5,7 @@
 
 #include "mainPlayer.h"
 #include "Fireball.h"
+#include "Mob.h"
 
 // c++ includes
 #include <iostream>
@@ -46,7 +47,9 @@ mainPlayer::~mainPlayer()
 	// destructor
 }
 
-void mainPlayer::Update(sf::View &view, Map &map, std::vector<Fireball> &fireball) {
+void mainPlayer::Update(sf::View &view, Map &map, std::vector<Mob> &mobs) {
+
+
 	//cd von spell verkleinern und icon offcd bearbeiten
 	int fireballcdinprozent;
 	if (fireballcd >= 0) {
@@ -97,7 +100,18 @@ void mainPlayer::Update(sf::View &view, Map &map, std::vector<Fireball> &firebal
 		SpendMana(fireballmana);
 	}
 
-
+	//fireballs updaten und löschen wenn return true
+	for (int i = 0; i < fireball.size(); i++) {
+		int xpreturned = fireball[i].Update(map, mobs);
+		if (xpreturned >=0) {
+			
+			fireball.erase(fireball.begin() + i);
+			if (xpreturned > 0) {
+				SetXp(xpreturned);
+			}
+			
+		}
+	}
 
 
 	//Hier werden alle Positionen geupdated
@@ -141,7 +155,7 @@ void mainPlayer::Update(sf::View &view, Map &map, std::vector<Fireball> &firebal
 	
 }
 
-void mainPlayer::DrawUI(sf::RenderWindow &window, std::vector<Fireball> &fireball) {
+void mainPlayer::DrawUI(sf::RenderWindow &window) {
 	window.draw(sprite);
 	for (int i = 0; i < fireball.size(); i++) {
 		fireball[i].Draw(window);
@@ -161,7 +175,7 @@ void mainPlayer::DrawUI(sf::RenderWindow &window, std::vector<Fireball> &firebal
 	
 }
 
-void mainPlayer::DrawMinimap(sf::RenderWindow &window, std::vector<Fireball> &fireball) {
+void mainPlayer::DrawMinimap(sf::RenderWindow &window) {
 	window.draw(sprite);
 	for (int i = 0; i < fireball.size(); i++) {
 		fireball[i].Draw(window);
@@ -242,4 +256,12 @@ void mainPlayer::SetFireballTextures(sf::Texture &oncd, sf::Texture &offcd) {
 	fireballoffcdtexture = offcd;
 	fireballoncdsprite.setTexture(fireballoncdtexture);
 	fireballoffcdsprite.setTexture(fireballoffcdtexture);
+}
+
+void mainPlayer::SetXp(int pxp) {
+	xp = pxp + xp;
+}
+
+int mainPlayer::GetXp() {
+	return xp;
 }

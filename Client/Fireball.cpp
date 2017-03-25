@@ -20,7 +20,7 @@ Fireball::~Fireball()
 
 }
 
-bool Fireball::Update(Map &map, std::vector<Mob> &mobs) {
+int Fireball::Update(Map &map, std::vector<Mob> &mobs) {
 	//den ball bewegen
 	sf::FloatRect boundingBox = sprite.getGlobalBounds();
 	 
@@ -54,15 +54,15 @@ bool Fireball::Update(Map &map, std::vector<Mob> &mobs) {
 			if (mobs[i].TakeDamage(damage)) {
 				mobs.erase(mobs.begin()+i);
 			}
-			return true;
+			return mobs[i].getXp();
 		}
 	}
 	//überprüffen ob der ball in eine hitbox geworfen wurde
 	if ((!map.Collision(boundingBoxBottom)&& direction == 3)|| (!map.Collision(boundingBoxTop)&& direction == 1)|| (!map.Collision(boundingBoxRight)&& direction == 2)|| (!map.Collision(boundingBoxLeft)&& direction == 4))return true;
 	//das leben des balles verkleinern
 	life = life - 1;
-	if (life == 0) return true;
-	return false;
+	if (life == 0) return 0;
+	return -1;
 }
 
 void Fireball::Draw(sf::RenderWindow &window) {

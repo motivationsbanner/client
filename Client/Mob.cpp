@@ -67,3 +67,7 @@ void Mob::SetHealthBar(sf::Texture &phealth, sf::Texture &phealthbar)
 	healthbarsprite.setTexture(healthbar);
 	healthbarsprite.setScale(0.5f, 0.5f);
 }
+
+int Mob::getXp() {
+	return xp;
+}

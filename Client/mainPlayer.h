@@ -40,15 +40,19 @@ class mainPlayer : public Base
 	int manaregeneration = 1;
 	int fireballmana = 25;
 	int fireballmaxcd = 15;
+	int xp = 0;
+	int maxxp = 20;
+	int level = 1;
 public:
 	int fireballcd = 0;
+	std::vector<Fireball> fireball;
 	mainPlayer(int X, int Y,  std::string pTexturefile);
 	~mainPlayer();
 
 	void manaregen();
-	void Update(sf::View &, Map &, std::vector<Fireball> &);
-	void DrawMinimap(sf::RenderWindow &, std::vector<Fireball> &);
-	void DrawUI(sf::RenderWindow &, std::vector<Fireball> &);
+	void Update(sf::View &, Map &, std::vector<Mob> &mobs);
+	void DrawMinimap(sf::RenderWindow &);
+	void DrawUI(sf::RenderWindow &);
 	void TakeDamage(int damage);
 	void SpendMana(int manaspent);
 	void SetTexture(sf::Texture &);
@@ -56,5 +60,7 @@ public:
 	void SetManaBar(sf::Texture &, sf::Texture &);
 	void SetHealthBar(sf::Texture &, sf::Texture &);
 	void SetFireballTextures(sf::Texture &, sf::Texture &);
+	void SetXp(int pxp);
+	int GetXp();
 };
 

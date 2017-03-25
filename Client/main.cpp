@@ -226,13 +226,8 @@ int main(){
 				mobs[0].SetTexture(rat);
 			}
 
-			mainplayer.Update(view,map, fireball);
-			//fireballs updaten und löschen wenn return true
-			for (int i = 0; i < fireball.size(); i++) {
-				if (fireball[i].Update(map, mobs)) {
-					fireball.erase(fireball.begin() + i);
-				}
-			}
+			mainplayer.Update(view,map,mobs);
+
 
 			// Draw View
 			window.clear(sf::Color::Black);
@@ -252,7 +247,7 @@ int main(){
 				mob.Update();
 				mob.Draw(window);
 			}
-			mainplayer.DrawUI(window,fireball);
+			mainplayer.DrawUI(window);
 
 			//Draw Minimap
 			window.setView(minimapView);
@@ -264,7 +259,7 @@ int main(){
 			for (Mob &mob : mobs) {
 				mob.DrawMap(window);
 			}
-			mainplayer.DrawMinimap(window, fireball);
+			mainplayer.DrawMinimap(window);
 
 			//Alles anzeigen lassen
 			window.display();

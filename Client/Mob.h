@@ -9,6 +9,7 @@ class Mob :
 	int speed = 2;
 	int direction = 1;
 	int spriteposition = 0;
+	int xp = 2;
 	sf::Texture mobtexture;
 	sf::Sprite mobsprite;
 	sf::Sprite healthsprite;
@@ -26,5 +27,6 @@ public:
 	bool Mob::TakeDamage(int damage);
 	void Mob::SetHealthBar(sf::Texture &, sf::Texture &);
 	sf::FloatRect Mob::getFloatRect();
+	int Mob::getXp();
 };
 
