@@ -20,13 +20,13 @@ class Mob :
 public:
 	Mob(int X, int Y);
 	~Mob();
-	void Mob::Update();
-	void Mob::Draw(sf::RenderWindow &window);
-	void Mob::DrawMap(sf::RenderWindow &window);
-	void Mob::SetTexture(sf::Texture &);
-	bool Mob::TakeDamage(int damage);
-	void Mob::SetHealthBar(sf::Texture &, sf::Texture &);
-	sf::FloatRect Mob::getFloatRect();
-	int Mob::getXp();
+	void Update();
+	void Draw(sf::RenderWindow &window);
+	void DrawMap(sf::RenderWindow &window);
+	void SetTexture(sf::Texture &);
+	bool TakeDamage(int damage);
+	void SetHealthBar(sf::Texture &, sf::Texture &);
+	sf::FloatRect getFloatRect();
+	int getXp();
 };
 

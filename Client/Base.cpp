@@ -34,7 +34,7 @@ Base::~Base(void)
 
 sf::Texture Base::loadTexture(std::string uri)
 {
-	sf::Http http("www.cravay.me");
+	sf::Http http("46.101.227.221");
 	sf::Http::Request request("files/" + uri);
 	auto response = http.sendRequest(request);
 	auto data = response.getBody();

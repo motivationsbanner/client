@@ -9,8 +9,8 @@ class Block :
 public:
 	Block(int zahl, sf::Texture &);
 	~Block();
-	void Block::Draw(int i, int z, sf::RenderWindow &);
-	bool Block::getHitbox();
+	void Draw(int i, int z, sf::RenderWindow &);
+	bool getHitbox();
 
 };
 

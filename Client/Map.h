@@ -10,9 +10,9 @@ public:
 	~Map();
 	void Draw(sf::RenderWindow &);
 	void Loadmap(std::string path);
-	int Map::GetHeight();
-	int Map::GetWidth();
-	bool Map::Collision(sf::FloatRect player);
-	int Map::Collision(sf::FloatRect player, std::string direction, int speed);
+	int GetHeight();
+	int GetWidth();
+	bool Collision(sf::FloatRect player);
+	int Collision(sf::FloatRect player, std::string direction, int speed);
 };
 

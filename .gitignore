@@ -249,3 +249,7 @@ ModelManifest.xml
 
 *.o
 *.exe
+
+Makefile
+.vscode/
+overkeggly
